@@ -54,11 +54,11 @@ def arm_and_takeoff(aTargetAltitude):
                 time.sleep(1)
 
 arm_and_takeoff(2)
-sleep(10)
+time.sleep(10)
 print "takeoff and hover complete"
 condition_yaw(180)
 print "turn 180 degrees complete"
-sleep(20)
+time.sleep(20)
 
 print "Mission complete! Time to land~"
 vehicle.mode=VehicleMode("LAND")
