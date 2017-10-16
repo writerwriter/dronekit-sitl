@@ -72,7 +72,6 @@ def arm_and_takeoff(aTargetAltitude):
             break
         time.sleep(1)
 
-vehicle.home_location = LocationGlobalRelative(24.945190,121.370335,0)
 #Arm and take of to altitude of 5 meters
 arm_and_takeoff(2)
 
@@ -439,9 +438,14 @@ print("Set groundspeed to 5m/s.")
 vehicle.airspeed = 5
 targetLocation = LocationGlobalRelative(24.945370,121.370330,2)
 vehicle.simple_goto(targetLocation)
-while True:
-    print(vehicle.location.global_relative_frame)
-    time.sleep(1)
+while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+    #print "DEBUG: mode: %s" % vehicle.mode.name
+    remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+    print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+    if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+        print "Reached target"
+        break;
+    time.sleep(2)
 print("goto complete")
 time.sleep(10)
 

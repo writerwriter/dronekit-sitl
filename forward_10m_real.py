@@ -86,8 +86,6 @@ def get_location_metres(original_location, dNorth, dEast):
     
     earth_radius = 6378137.0 #Radius of "spherical" earth
     #Coordinate offsets in radians
-    #####dLat means 弧度 from original to target(lat)
-    #####dLon the radius 因為緯度的升高會降低，所以要用緯度cos後映射的半徑而不是地球的半徑
     dLat = dNorth/earth_radius
     dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
 
