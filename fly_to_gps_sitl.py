@@ -434,10 +434,13 @@ In AC3.3 the speed changes immediately.
 """	
 
 
+print vehicle.location.global_relative_frame
+
 print("Set groundspeed to 5m/s.")
 vehicle.airspeed = 5
-targetLocation = LocationGlobalRelative(24.945370,121.370330,2)
-vehicle.simple_goto(targetLocation)
+targetLocation = LocationGlobalRelative(-35.364114, 149.166022, 30)
+targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+vehicle.simple_goto(targetLocation) 
 while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
     #print "DEBUG: mode: %s" % vehicle.mode.name
     remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
