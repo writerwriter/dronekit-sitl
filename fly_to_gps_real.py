@@ -1,31 +1,26 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
 import time
 import math
+from droneapi.lib import Location
+
 #Set up option parsing to get connection string
 import argparse  
-parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
-parser.add_argument('--connect', 
-                   help="Vehicle connection target string. If not specified, SITL automatically started and used.")
+parser = argparse.ArgumentParser()
+parser.add_argument('--connect', default='/dev/serial0')
 args = parser.parse_args()
 
-connection_string = args.connect
-sitl = None
-
-
-#Start SITL if no connection string specified
-if not connection_string:
-    import dronekit_sitl
-    sitl = dronekit_sitl.start_default()
-    connection_string = sitl.connection_string()
-
-
-# Connect to the Vehicle
-print 'Connecting to vehicle on: %s' % connection_string
-vehicle = connect(connection_string, wait_ready=True)
+vehicle = connect(args.connect, baud=57600, wait_ready=True)
 
 
 def arm_and_takeoff(aTargetAltitude):
+    """
+    Arms vehicle and fly to aTargetAltitude.
+    """
 
     print "Basic pre-arm checks"
     # Don't let the user try to arm until autopilot is ready
@@ -55,9 +50,10 @@ def arm_and_takeoff(aTargetAltitude):
             break
         time.sleep(1)
 
-
 #Arm and take of to altitude of 5 meters
 arm_and_takeoff(2)
+
+
 
 
 def condition_yaw(heading, relative=False):
@@ -97,6 +93,7 @@ def set_roi(location):
 
 def get_location_metres(original_location, dNorth, dEast):
     earth_radius = 6378137.0 #Radius of "spherical" earth
+    #Coordinate offsets in radians
     dLat = dNorth/earth_radius
     dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
 
@@ -126,6 +123,8 @@ def get_bearing(aLocation1, aLocation2):
     if bearing < 0:
         bearing += 360.00
     return bearing;
+
+
 
 
 def goto_position_target_global_int(aLocation):
@@ -183,8 +182,8 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
 
 
 
-
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
+
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -204,6 +203,7 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
+
     msg = vehicle.message_factory.set_position_target_global_int_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -225,12 +225,25 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
         time.sleep(1)    
 
 
+print vehicle.location.global_relative_frame
 
 print("Set groundspeed to 5m/s.")
-vehicle.groundspeed = 5
-goto(10, 0, goto_position_target_global_int)
+vehicle.airspeed = 1
+targetLocation = LocationGlobalRelative(24.945420, 121.370407, 2)
+targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+vehicle.simple_goto(targetLocation)
+while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+    #print "DEBUG: mode: %s" % vehicle.mode.name
+    remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+    print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+    if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+        print "Reached target"
+        break;
+    time.sleep(2)
 print("goto complete")
 time.sleep(10)
+
+
 
 print("Setting LAND mode...")
 vehicle.mode = VehicleMode("LAND")
