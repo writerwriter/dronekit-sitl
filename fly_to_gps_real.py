@@ -18,9 +18,6 @@ vehicle = connect(args.connect, baud=57600, wait_ready=True)
 
 
 def arm_and_takeoff(aTargetAltitude):
-    """
-    Arms vehicle and fly to aTargetAltitude.
-    """
 
     print "Basic pre-arm checks"
     # Don't let the user try to arm until autopilot is ready
