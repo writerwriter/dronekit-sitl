@@ -4,6 +4,12 @@ import time
 import math
 #Set up option parsing to get connection string
 import argparse  
+import time
+
+#create log file
+logFile=open("log.txt","a+")
+
+
 parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
 parser.add_argument('--connect', 
                    help="Vehicle connection target string. If not specified, SITL automatically started and used.")
@@ -164,11 +170,13 @@ def goto_position_target_local_ned(north, east, down):
 
 def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
     
+    print "origin_yaw:"+str(vehicle.attitude.yaw)
     currentLocation = vehicle.location.global_relative_frame
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
     targetDistance = get_distance_metres(currentLocation, targetLocation)
     gotoFunction(targetLocation)
-    
+
+    condition_yaw(180)
     #print "DEBUG: targetLocation: %s" % targetLocation
     #print "DEBUG: targetLocation: %s" % targetDistance
 
@@ -176,6 +184,8 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
         #print "DEBUG: mode: %s" % vehicle.mode.name
         remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
         print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+        logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"+str(vehicle.location.global_relative_frame)+'\n'+"EKF ok?:"+str(vehicle.ekf_ok)+'\n'+str(vehicle.attitude)+"\n"+str(vehicle.battery)+"\n\n"
+            )
         if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
             print "Reached target"
             break;
@@ -227,6 +237,7 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 print("Set groundspeed to 5m/s.")
+
 vehicle.groundspeed = 5
 goto(10, 0, goto_position_target_global_int)
 print("goto complete")
