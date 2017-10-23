@@ -1,11 +1,10 @@
-
-
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
-from pymavlink import mavutil 
+from pymavlink import mavutil # Needed for command message definitions
 import time
 import math
-
+#Set up option parsing to get connection string
 import argparse  
+import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--connect', default='/dev/serial0')
@@ -13,19 +12,17 @@ args = parser.parse_args()
 
 vehicle = connect(args.connect, baud=57600, wait_ready=True)
 
-
 def arm_and_takeoff(aTargetAltitude):
-    
 
     print "Basic pre-arm checks"
-   
+    # Don't let the user try to arm until autopilot is ready
     while not vehicle.is_armable:
         print " Waiting for vehicle to initialise..."
         time.sleep(1)
 
         
     print "Arming motors"
-   
+    # Copter should arm in GUIDED mode
     vehicle.mode = VehicleMode("GUIDED")
     vehicle.armed = True
 
@@ -34,23 +31,27 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
     print "Taking off!"
-    vehicle.simple_takeoff(aTargetAltitude) 
+    vehicle.simple_takeoff(aTargetAltitude) # Take off to target altitude
+
+    # Wait until the vehicle reaches a safe height before processing the goto (otherwise the command 
+    #  after Vehicle.simple_takeoff will execute immediately).
     while True:
         print " Altitude: ", vehicle.location.global_relative_frame.alt      
-        if vehicle.location.global_relative_frame.alt>=aTargetAltitude*0.95: 
+        if vehicle.location.global_relative_frame.alt>=aTargetAltitude*0.95: #Trigger just below target alt.
             print "Reached target altitude"
             break
         time.sleep(1)
 
+
+#Arm and take of to altitude of 5 meters
 arm_and_takeoff(2)
 
 
 def condition_yaw(heading, relative=False):
-    
     if relative:
-        is_relative = 1 
+        is_relative = 1 #yaw relative to direction of travel
     else:
-        is_relative = 0 
+        is_relative = 0 #yaw is an absolute angle
     # create the CONDITION_YAW command using command_long_encode()
     msg = vehicle.message_factory.command_long_encode(
         0, 0,    # target system, target component
@@ -66,7 +67,6 @@ def condition_yaw(heading, relative=False):
 
 #!!!!!!!!!!!pointing heading position to specific location.
 def set_roi(location):
-   
     # create the MAV_CMD_DO_SET_ROI command
     msg = vehicle.message_factory.command_long_encode(
         0, 0,    # target system, target component
@@ -83,9 +83,7 @@ def set_roi(location):
 
 
 def get_location_metres(original_location, dNorth, dEast):
-    
     earth_radius = 6378137.0 #Radius of "spherical" earth
-    #Coordinate offsets in radians
     dLat = dNorth/earth_radius
     dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
 
@@ -103,14 +101,12 @@ def get_location_metres(original_location, dNorth, dEast):
 
 
 def get_distance_metres(aLocation1, aLocation2):
-   
     dlat = aLocation2.lat - aLocation1.lat
     dlong = aLocation2.lon - aLocation1.lon
     return math.sqrt((dlat*dlat) + (dlong*dlong)) * 1.113195e5
 
 
 def get_bearing(aLocation1, aLocation2):
-   
     off_x = aLocation2.lon - aLocation1.lon
     off_y = aLocation2.lat - aLocation1.lat
     bearing = 90.00 + math.atan2(-off_y, off_x) * 57.2957795
@@ -119,9 +115,7 @@ def get_bearing(aLocation1, aLocation2):
     return bearing;
 
 
-
 def goto_position_target_global_int(aLocation):
-   
     msg = vehicle.message_factory.set_position_target_global_int_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -141,7 +135,6 @@ def goto_position_target_global_int(aLocation):
 
 
 def goto_position_target_local_ned(north, east, down):
-   
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -157,13 +150,14 @@ def goto_position_target_local_ned(north, east, down):
 
 
 def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
-   
     
+    print "origin_yaw:"+str(vehicle.attitude.yaw)
     currentLocation = vehicle.location.global_relative_frame
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
     targetDistance = get_distance_metres(currentLocation, targetLocation)
     gotoFunction(targetLocation)
-    
+
+    condition_yaw(180)
     #print "DEBUG: targetLocation: %s" % targetLocation
     #print "DEBUG: targetLocation: %s" % targetDistance
 
@@ -171,6 +165,14 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
         #print "DEBUG: mode: %s" % vehicle.mode.name
         remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
         print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+        logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"
+            +str(vehicle.location.global_relative_frame)+'\n'
+            +"velocity:"+str(vehicle.velocity)+'\n'
+            +"system_status:"+str(vehicle.system_status.state)+'\n'
+            +"vehicle mode:"+str(vehicle.mode.name)+'\n'
+            +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
+            +str(vehicle.attitude)+"\n"
+            +str(vehicle.battery)+"\n\n")
         if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
             print "Reached target"
             break;
@@ -178,8 +180,8 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
 
 
 
+
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
-    
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -199,7 +201,6 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
-   
     msg = vehicle.message_factory.set_position_target_global_int_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -223,6 +224,7 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 print("Set groundspeed to 5m/s.")
+
 vehicle.groundspeed = 5
 goto(10, 0, goto_position_target_global_int)
 print("goto complete")

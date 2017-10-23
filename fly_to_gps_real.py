@@ -16,6 +16,7 @@ args = parser.parse_args()
 
 vehicle = connect(args.connect, baud=57600, wait_ready=True)
 
+logFile=open("log_gps.txt","a+")
 
 def arm_and_takeoff(aTargetAltitude):
 
@@ -233,6 +234,16 @@ while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mo
     #print "DEBUG: mode: %s" % vehicle.mode.name
     remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
     print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+
+    logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"
+            +str(vehicle.location.global_relative_frame)+'\n'
+            +"velocity:"+str(vehicle.velocity)+'\n'
+            +"system_status:"+str(vehicle.system_status.state)+'\n'
+            +"vehicle mode:"+str(vehicle.mode.name)+'\n'
+            +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
+            +str(vehicle.attitude)+"\n"
+            +str(vehicle.battery)+"\n\n")
+
     if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
         print "Reached target"
         break;

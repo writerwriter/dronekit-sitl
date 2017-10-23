@@ -1,161 +1,45 @@
-time:Thu Oct 19 20:53:05 2017 alt : 1.94,yaw:-0.125881493092lat:-35.3632609,lon:149.1652301
+time:Mon Oct 23 20:32:21 2017
+LocationGlobalRelative:lat=-35.3632609,lon=149.1652301,alt=1.94
+velocity:[-0.01, -0.05, 0.04]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.000392853631638,yaw=-0.126412644982,roll=-0.00166594947223
 Battery:voltage=12.242,current=25.42,level=98
-time:Thu Oct 19 20:53:07 2017 alt : 1.98,yaw:-0.00351433572359lat:-35.3632537,lon:149.1652293
-Battery:voltage=12.242,current=25.42,level=98
-time:Thu Oct 19 20:53:09 2017 alt : 1.96,yaw:0.00567826582119lat:-35.3632184,lon:149.1652286
-Battery:voltage=12.242,current=25.84,level=97
-time:Thu Oct 19 20:53:11 2017 alt : 1.94,yaw:0.00688990298659lat:-35.3631847,lon:149.165229
-Battery:voltage=12.242,current=25.59,level=97
-time:Thu Oct 19 20:53:13 2017 alt : 1.93,yaw:0.00765907811001lat:-35.3631704,lon:149.1652298
-Battery:voltage=12.242,current=25.5,level=97
-time:Thu Oct 19 20:56:19 2017 alt : 1.93,yaw:-0.128945603967lat:-35.363261,lon:149.1652303
-Battery:voltage=12.242,current=25.25,level=98
-time:Thu Oct 19 20:56:21 2017 alt : 1.98,yaw:-1.19532155991lat:-35.3632534,lon:149.1652287
+
+time:Mon Oct 23 20:32:23 2017
+LocationGlobalRelative:lat=-35.3632534,lon=149.1652286,alt=1.98
+velocity:[1.07, -0.07, 0.0]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.055172290653,yaw=-1.19569313526,roll=0.122048720717
 Battery:voltage=12.242,current=26.17,level=98
-time:Thu Oct 19 20:56:23 2017 alt : 1.95,yaw:-2.70126748085lat:-35.3632184,lon:149.1652266
-Battery:voltage=12.242,current=26.0,level=97
-time:Thu Oct 19 20:56:25 2017 alt : 1.93,yaw:-3.1266412735lat:-35.3631847,lon:149.1652292
-Battery:voltage=12.242,current=25.84,level=97
-time:Thu Oct 19 20:56:27 2017 alt : 1.91,yaw:-3.14050722122lat:-35.3631707,lon:149.1652309
-Battery:voltage=12.242,current=25.5,level=97
-time:Thu Oct 19 21:01:05 2017 alt : 1.91,yaw:3.13374781609lat:-35.3631675,lon:149.1652316
-Battery:voltage=12.242,current=25.42,level=96
-time:Thu Oct 19 21:01:07 2017 alt : 1.91,yaw:3.13743638992lat:-35.3631687,lon:149.1652312
-Battery:voltage=12.242,current=25.5,level=96
-time:Thu Oct 19 21:01:09 2017 alt : 1.91,yaw:3.14058732986lat:-35.3631705,lon:149.1652309
-Battery:voltage=12.242,current=25.5,level=95
-time:Thu Oct 19 21:12:10 2017 alt : 1.94,yaw:-0.123197697103lat:-35.3632607,lon:149.1652296
-Battery:voltage=12.242,current=25.42,level=98
-LocationGlobalRelative:lat=-35.3632607,lon=149.1652296,alt=1.94
-time:Thu Oct 19 21:12:12 2017 alt : 1.98,yaw:-0.00498858187348lat:-35.3632539,lon:149.1652289
-Battery:voltage=12.242,current=25.5,level=98
-LocationGlobalRelative:lat=-35.3632539,lon=149.1652289,alt=1.98
-time:Thu Oct 19 21:12:14 2017 alt : 1.96,yaw:0.00326572288759lat:-35.363224,lon:149.1652285
-Battery:voltage=12.242,current=26.0,level=97
-LocationGlobalRelative:lat=-35.363224,lon=149.1652285,alt=1.96
-time:Thu Oct 19 21:12:16 2017 alt : 1.94,yaw:0.00424942141399lat:-35.3631852,lon:149.1652289
-Battery:voltage=12.242,current=25.59,level=97
-LocationGlobalRelative:lat=-35.3631852,lon=149.1652289,alt=1.94
-time:Thu Oct 19 21:12:18 2017 alt : 1.93,yaw:0.00501792365685lat:-35.3631706,lon:149.1652295
-Battery:voltage=12.242,current=25.5,level=97
-LocationGlobalRelative:lat=-35.3631706,lon=149.1652295,alt=1.93
-time:Thu Oct 19 21:16:13 2017
-LocationGlobalRelative:lat=-35.363261,lon=149.1652305,alt=1.94
-yaw:-0.124728597701
-Battery:voltage=12.242,current=25.42,level=98
-time:Thu Oct 19 21:16:15 2017
-LocationGlobalRelative:lat=-35.3632535,lon=149.1652294,alt=1.98
-yaw:-0.000903317471966
-Battery:voltage=12.242,current=25.42,level=98
-time:Thu Oct 19 21:16:17 2017
-LocationGlobalRelative:lat=-35.363218,lon=149.1652286,alt=1.96
-yaw:0.00826536584646
-Battery:voltage=12.242,current=25.84,level=97
-time:Thu Oct 19 21:16:19 2017
-LocationGlobalRelative:lat=-35.3631844,lon=149.1652292,alt=1.94
-yaw:0.0094951223582
-Battery:voltage=12.242,current=25.67,level=97
-time:Thu Oct 19 21:16:21 2017
-LocationGlobalRelative:lat=-35.3631704,lon=149.1652301,alt=1.93
-yaw:0.0102344658226
-Battery:voltage=12.242,current=25.5,level=97
-time:Thu Oct 19 21:18:41 2017
-LocationGlobalRelative:lat=-35.363261,lon=149.1652303,alt=1.93
-yaw:-0.128933504224
-Battery:voltage=12.242,current=25.25,level=98
 
-time:Thu Oct 19 21:18:43 2017
-LocationGlobalRelative:lat=-35.3632524,lon=149.1652292,alt=1.98
-yaw:-0.000433172011981
-Battery:voltage=12.242,current=25.42,level=98
+time:Mon Oct 23 20:32:25 2017
+LocationGlobalRelative:lat=-35.3632184,lon=149.1652264,alt=1.96
+velocity:[2.24, 0.0, -0.01]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=0.138780772686,yaw=-2.70176410675,roll=0.0511106960475
+Battery:voltage=12.242,current=26.0,level=97
 
-time:Thu Oct 19 21:18:45 2017
-LocationGlobalRelative:lat=-35.3632159,lon=149.1652286,alt=1.95
-yaw:0.00712543772534
+time:Mon Oct 23 20:32:27 2017
+LocationGlobalRelative:lat=-35.3631847,lon=149.165229,alt=1.94
+velocity:[1.38, 0.25, 0.0]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=0.0326328016818,yaw=-3.12669610977,roll=-0.0011492294725
 Battery:voltage=12.242,current=25.75,level=97
 
-time:Thu Oct 19 21:18:47 2017
-LocationGlobalRelative:lat=-35.3631831,lon=149.1652292,alt=1.93
-yaw:0.00863831583411
-Battery:voltage=12.242,current=25.67,level=97
-
-time:Thu Oct 19 21:18:49 2017
-LocationGlobalRelative:lat=-35.3631701,lon=149.1652299,alt=1.92
-yaw:0.00946185924113
-Battery:voltage=12.242,current=25.5,level=97
-
-time:Thu Oct 19 21:18:51 2017
-LocationGlobalRelative:lat=-35.3631669,lon=149.1652304,alt=1.91
-yaw:0.00212666485459
-Battery:voltage=12.242,current=25.42,level=96
-
-time:Thu Oct 19 21:18:53 2017
-LocationGlobalRelative:lat=-35.363168,lon=149.1652307,alt=1.91
-yaw:0.0060487985611
-Battery:voltage=12.242,current=25.42,level=96
-
-time:Thu Oct 19 21:18:55 2017
-LocationGlobalRelative:lat=-35.3631698,lon=149.1652309,alt=1.91
-yaw:0.00724219111726
-Battery:voltage=12.242,current=25.5,level=95
-
-time:Thu Oct 19 21:18:57 2017
-LocationGlobalRelative:lat=-35.3631708,lon=149.1652308,alt=1.91
-yaw:0.00649750279263
-Battery:voltage=12.242,current=25.59,level=95
-
-time:Thu Oct 19 21:23:13 2017
-LocationGlobalRelative:lat=-35.3632609,lon=149.1652302,alt=1.94
-yaw:-0.125930771232
-Battery:voltage=12.242,current=25.5,level=98
-
-time:Thu Oct 19 21:23:15 2017
-LocationGlobalRelative:lat=-35.3632535,lon=149.1652287,alt=1.98
-yaw:-1.19506907463
-Battery:voltage=12.242,current=26.17,level=98
-
-time:Thu Oct 19 21:23:17 2017
-LocationGlobalRelative:lat=-35.3632233,lon=149.1652267,alt=1.96
-yaw:-2.53107786179
-Battery:voltage=12.242,current=26.08,level=97
-
-time:Thu Oct 19 21:23:19 2017
-LocationGlobalRelative:lat=-35.3631879,lon=149.1652285,alt=1.94
-yaw:-3.12742686272
-Battery:voltage=12.242,current=26.25,level=97
-
-time:Thu Oct 19 21:23:21 2017
-LocationGlobalRelative:lat=-35.3631706,lon=149.1652308,alt=1.92
-yaw:-3.14046978951
-Battery:voltage=12.242,current=25.5,level=97
-
-time:Thu Oct 19 21:36:39 2017
-LocationGlobalRelative:lat=-35.3632609,lon=149.1652302,alt=1.94
+time:Mon Oct 23 20:32:29 2017
+LocationGlobalRelative:lat=-35.3631706,lon=149.1652307,alt=1.92
+velocity:[0.39, 0.03, 0.0]
+system_status:ACTIVE
+vehicle mode:GUIDED
 EKF ok?:True
-attitude:Attitude:pitch=-0.000975932751317,yaw=-0.125574141741,roll=-0.00165269803256
-Battery:voltage=12.242,current=25.42,level=98
-
-time:Thu Oct 19 21:36:41 2017
-LocationGlobalRelative:lat=-35.3632534,lon=149.1652287,alt=1.98
-EKF ok?:True
-attitude:Attitude:pitch=-0.0559325106442,yaw=-1.19481384754,roll=0.122533127666
-Battery:voltage=12.242,current=26.17,level=98
-
-time:Thu Oct 19 21:36:43 2017
-LocationGlobalRelative:lat=-35.3632183,lon=149.1652265,alt=1.96
-EKF ok?:True
-attitude:Attitude:pitch=0.138371884823,yaw=-2.70088529587,roll=0.0510385148227
-Battery:voltage=12.242,current=26.0,level=97
-
-time:Thu Oct 19 21:36:45 2017
-LocationGlobalRelative:lat=-35.3631846,lon=149.1652291,alt=1.94
-EKF ok?:True
-attitude:Attitude:pitch=0.0323210842907,yaw=-3.12662768364,roll=-0.00158406910487
-Battery:voltage=12.242,current=25.75,level=97
-
-time:Thu Oct 19 21:36:47 2017
-LocationGlobalRelative:lat=-35.3631706,lon=149.1652308,alt=1.92
-EKF ok?:True
-attitude:Attitude:pitch=0.00555203715339,yaw=-3.1404402256,roll=-0.00475391047075
+Attitude:pitch=0.00595903256908,yaw=-3.14049649239,roll=-0.00418334454298
 Battery:voltage=12.242,current=25.5,level=97
 

@@ -1,0 +1,162 @@
+time:Mon Oct 23 20:53:41 2017
+LocationGlobalRelative:lat=-35.3632609,lon=149.1652303,alt=1.93
+velocity:[-0.01, -0.06, 0.05]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.00110798026435,yaw=-0.129562273622,roll=-0.00370106426999
+Battery:voltage=12.242,current=25.25,level=98
+
+time:Mon Oct 23 20:53:43 2017
+LocationGlobalRelative:lat=-35.3632666,lon=149.1652339,alt=2.17
+velocity:[-1.06, 0.66, 0.29]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=0.00287183024921,yaw=0.957925319672,roll=0.142413064837
+Battery:voltage=12.242,current=26.25,level=98
+
+time:Mon Oct 23 20:53:45 2017
+LocationGlobalRelative:lat=-35.3632984,lon=149.1652604,alt=3.57
+velocity:[-2.33, 1.7, 1.01]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.218737408519,yaw=2.47708320618,roll=-0.0016646446893
+Battery:voltage=12.143,current=30.32,level=97
+
+time:Mon Oct 23 20:53:47 2017
+LocationGlobalRelative:lat=-35.3633416,lon=149.1653036,alt=5.7
+velocity:[-2.85, 2.29, 1.11]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.236372441053,yaw=2.50387144089,roll=0.00555451679975
+Battery:voltage=12.193,current=28.08,level=97
+
+time:Mon Oct 23 20:53:49 2017
+LocationGlobalRelative:lat=-35.3633909,lon=149.1653507,alt=7.43
+velocity:[-3.01, 2.33, 0.84]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.259921461344,yaw=2.50058341026,roll=-0.00243466068059
+Battery:voltage=12.193,current=28.08,level=97
+
+time:Mon Oct 23 20:53:51 2017
+LocationGlobalRelative:lat=-35.363453,lon=149.1654081,alt=9.42
+velocity:[-3.26, 2.47, 0.95]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.255509704351,yaw=2.49126052856,roll=0.00491444719955
+Battery:voltage=12.193,current=27.91,level=96
+
+time:Mon Oct 23 20:53:53 2017
+LocationGlobalRelative:lat=-35.3635031,lon=149.1654539,alt=11.05
+velocity:[-3.32, 2.5, 0.98]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.26220920682,yaw=2.49582052231,roll=0.00104524334893
+Battery:voltage=12.193,current=28.0,level=96
+
+time:Mon Oct 23 20:53:55 2017
+LocationGlobalRelative:lat=-35.3635693,lon=149.1655142,alt=13.2
+velocity:[-3.38, 2.54, 1.01]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.260545969009,yaw=2.49779295921,roll=0.00131785753183
+Battery:voltage=12.193,current=28.08,level=95
+
+time:Mon Oct 23 20:53:57 2017
+LocationGlobalRelative:lat=-35.3636361,lon=149.1655756,alt=15.39
+velocity:[-3.4, 2.57, 1.02]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.264650553465,yaw=2.49706578255,roll=-0.00361065845937
+Battery:voltage=12.193,current=28.16,level=95
+
+time:Mon Oct 23 20:53:59 2017
+LocationGlobalRelative:lat=-35.3636956,lon=149.1656308,alt=17.35
+velocity:[-3.4, 2.54, 1.02]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.26142179966,yaw=2.49369120598,roll=-0.000740929215681
+Battery:voltage=12.193,current=28.0,level=94
+
+time:Mon Oct 23 20:54:01 2017
+LocationGlobalRelative:lat=-35.3637548,lon=149.1656862,alt=19.31
+velocity:[-3.4, 2.58, 1.02]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.26271161437,yaw=2.49973511696,roll=0.000283436878817
+Battery:voltage=12.193,current=28.25,level=94
+
+time:Mon Oct 23 20:54:03 2017
+LocationGlobalRelative:lat=-35.3638217,lon=149.1657485,alt=21.51
+velocity:[-3.43, 2.57, 1.02]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.259929716587,yaw=2.49558162689,roll=-0.00324284704402
+Battery:voltage=12.193,current=28.16,level=93
+
+time:Mon Oct 23 20:54:05 2017
+LocationGlobalRelative:lat=-35.3638808,lon=149.1658035,alt=23.46
+velocity:[-3.44, 2.54, 1.01]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.262687265873,yaw=2.50052976608,roll=-0.00217479094863
+Battery:voltage=12.193,current=28.16,level=93
+
+time:Mon Oct 23 20:54:07 2017
+LocationGlobalRelative:lat=-35.3639398,lon=149.1658583,alt=25.41
+velocity:[-3.44, 2.53, 1.01]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.258486032486,yaw=2.49420332909,roll=0.00287479255348
+Battery:voltage=12.193,current=28.16,level=92
+
+time:Mon Oct 23 20:54:09 2017
+LocationGlobalRelative:lat=-35.3640056,lon=149.1659193,alt=27.58
+velocity:[-3.42, 2.52, 1.0]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.260865241289,yaw=2.49655365944,roll=0.00342778349295
+Battery:voltage=12.193,current=28.08,level=92
+
+time:Mon Oct 23 20:54:11 2017
+LocationGlobalRelative:lat=-35.3640624,lon=149.1659714,alt=29.32
+velocity:[-2.99, 2.21, 0.64]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.17913658917,yaw=2.49548482895,roll=0.000651007285342
+Battery:voltage=12.242,current=26.08,level=91
+
+time:Mon Oct 23 20:54:13 2017
+LocationGlobalRelative:lat=-35.3641027,lon=149.1660084,alt=29.89
+velocity:[-1.62, 1.14, 0.08]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.0241185724735,yaw=2.4938993454,roll=0.00456541730091
+Battery:voltage=12.242,current=25.75,level=91
+
+time:Mon Oct 23 20:54:15 2017
+LocationGlobalRelative:lat=-35.3641171,lon=149.1660211,alt=29.97
+velocity:[-0.24, 0.15, 0.02]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=0.0105591742322,yaw=2.49574422836,roll=0.0011682480108
+Battery:voltage=12.242,current=25.5,level=90
+
