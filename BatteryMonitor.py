@@ -13,6 +13,7 @@ vehicle = connect(args.connect, baud=57600, wait_ready=True)
 
 while True:
         print str(vehicle.battery)+'\n'
+        print str(vehicle.location.global_relative_frame)+'\n'+'--------------------------------------------'+'\n'
         time.sleep(1)
 
 vehicle.close()
