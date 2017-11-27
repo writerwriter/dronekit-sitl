@@ -6,12 +6,13 @@ import math
 #Set up option parsing to get connection string
 import argparse  
 import time
-#import picamera
+import picamera
 
 #create log file
 
 
 logFile=open("log.txt","a+")
+camera = picamera.PiCamera()
 parser = argparse.ArgumentParser()
 parser.add_argument('--connect', default='/dev/serial0')
 args = parser.parse_args()
@@ -223,12 +224,11 @@ def check_status():
 	print "time:"+time.asctime(time.localtime(time.time()))+"\n"+str(vehicle.location.global_relative_frame)+'\n'+"velocity:"+str(vehicle.velocity)+'\n'+"system_status:"+str(vehicle.system_status.state)+'\n'+"vehicle mode:"+str(vehicle.mode.name)+'\n'+"EKF ok?:"+str(vehicle.ekf_ok)+'\n'+str(vehicle.attitude)+"\n"+str(vehicle.battery)+"\n\n"
 
 def pi_camera_capture():
-	camera = picamera.PiCamera()
-	camera.capture("../picture/test.png")
+	camera.capture("../picture/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".png")
 	time.sleep(1)
 
 while True:
-	n = input("greetings~What are you going to do?(1:goto 2:takeoff 3:status 4:picturing")
+	n = input("greetings~What are you going to do?(1:goto 2:takeoff 3:status 4:picturing 5:landing 6:close\n")
 	if n == 1:
 		h = input("takeoff heigt(m)")
 		dNorth = input("toward north(m)")
@@ -242,6 +242,11 @@ while True:
 		check_status()
 	elif n == 4:
 		pi_camera_capture()
+	elif n == 5:
+		vehicle.mode = VehicleMode("LAND")
+	elif n == 6:
+		vehicle.close()
+		break
 	else:
 		continue
 
