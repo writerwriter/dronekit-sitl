@@ -1,10 +1,15 @@
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
 import time
+import log
 import math
 #Set up option parsing to get connection string
 import argparse  
 import time
+#import picamera
+
+#create log file
+
 
 logFile=open("log.txt","a+")
 parser = argparse.ArgumentParser()
@@ -44,8 +49,6 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 
-#Arm and take of to altitude of 5 meters
-arm_and_takeoff(2)
 
 
 def condition_yaw(heading, relative=False):
@@ -166,14 +169,8 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
         #print "DEBUG: mode: %s" % vehicle.mode.name
         remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
         print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
-        logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"
-            +str(vehicle.location.global_relative_frame)+'\n'
-            +"velocity:"+str(vehicle.velocity)+'\n'
-            +"system_status:"+str(vehicle.system_status.state)+'\n'
-            +"vehicle mode:"+str(vehicle.mode.name)+'\n'
-            +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
-            +str(vehicle.attitude)+"\n"
-            +str(vehicle.battery)+"\n\n")
+        log.log_vehicle(vehicle,logFile)
+
         if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
             print "Reached target"
             break;
@@ -222,21 +219,30 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)    
 
+def check_status():
+	print "time:"+time.asctime(time.localtime(time.time()))+"\n"+str(vehicle.location.global_relative_frame)+'\n'+"velocity:"+str(vehicle.velocity)+'\n'+"system_status:"+str(vehicle.system_status.state)+'\n'+"vehicle mode:"+str(vehicle.mode.name)+'\n'+"EKF ok?:"+str(vehicle.ekf_ok)+'\n'+str(vehicle.attitude)+"\n"+str(vehicle.battery)+"\n\n"
+
+def pi_camera_capture():
+	camera = picamera.PiCamera()
+	camera.capture("../picture/test.png")
+	time.sleep(1)
+
+while True:
+	n = input("greetings~What are you going to do?(1:goto 2:takeoff 3:status 4:picturing")
+	if n == 1:
+		h = input("takeoff heigt(m)")
+		dNorth = input("toward north(m)")
+		dEast = input("toward east(m)")
+		arm_and_takeoff(h)
+		goto(dNorth,dEast)
+	elif n == 2:
+		h = input("takeoff height(m)")
+		arm_and_takeoff(h)
+	elif n == 3:
+		check_status()
+	elif n == 4:
+		pi_camera_capture()
+	else:
+		continue
 
 
-print("Set groundspeed to 5m/s.")
-
-vehicle.groundspeed = 5
-goto(10, 0, goto_position_target_global_int)
-print("goto complete")
-time.sleep(10)
-
-print("Setting LAND mode...")
-vehicle.mode = VehicleMode("LAND")
-
-
-#Close vehicle object before exiting script
-print "Close vehicle object"
-vehicle.close()
-
-# Shut down simulator if it was started.

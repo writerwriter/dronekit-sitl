@@ -238,7 +238,7 @@ def check_status():
 	print "time:"+time.asctime(time.localtime(time.time()))+"\n"+str(vehicle.location.global_relative_frame)+'\n'+"velocity:"+str(vehicle.velocity)+'\n'+"system_status:"+str(vehicle.system_status.state)+'\n'+"vehicle mode:"+str(vehicle.mode.name)+'\n'+"EKF ok?:"+str(vehicle.ekf_ok)+'\n'+str(vehicle.attitude)+"\n"+str(vehicle.battery)+"\n\n"
 
 def pi_camera_capture():
-	camera = picamera.PiCamera();
+	camera = picamera.PiCamera()
 	camera.capture("../picture/test.png")
 	time.sleep(1)
 
