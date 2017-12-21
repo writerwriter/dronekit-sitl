@@ -18,6 +18,9 @@ vehicle = connect(args.connect, baud=57600, wait_ready=True)
 logFile=open("log_gps.txt","a+")
 
 def arm_and_takeoff(aTargetAltitude):
+    """
+    Arms vehicle and fly to aTargetAltitude.
+    """
 
     print "Basic pre-arm checks"
     # Don't let the user try to arm until autopilot is ready
@@ -48,8 +51,7 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 #Arm and take of to altitude of 5 meters
-arm_and_takeoff(5)
-
+arm_and_takeoff(10)
 
 
 
@@ -86,11 +88,11 @@ def set_roi(location):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
-
-
 def get_location_metres(original_location, dNorth, dEast):
     earth_radius = 6378137.0 #Radius of "spherical" earth
     #Coordinate offsets in radians
+    #####dLat means 弧度 from original to target(lat)
+    #####dLon the radius 因為緯度的升高會降低，所以要用緯度cos後映射的半徑而不是地球的半徑
     dLat = dNorth/earth_radius
     dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
 
@@ -120,7 +122,6 @@ def get_bearing(aLocation1, aLocation2):
     if bearing < 0:
         bearing += 360.00
     return bearing;
-
 
 
 
@@ -178,9 +179,7 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
         time.sleep(2)
 
 
-
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
-
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -200,7 +199,6 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
-
     msg = vehicle.message_factory.set_position_target_global_int_encode(
         0,       # time_boot_ms (not used)
         0, 0,    # target system, target component
@@ -222,38 +220,42 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
         time.sleep(1)    
 
 
+
+
 print vehicle.location.global_relative_frame
 
 print("Set groundspeed to 5m/s.")
-vehicle.airspeed = 1
-targetLocation = LocationGlobalRelative(24.9456215, 121.3700629, 2)
-targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
-vehicle.simple_goto(targetLocation)
-while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
-    #print "DEBUG: mode: %s" % vehicle.mode.name
-    remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
-    print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+vehicle.airspeed = 5
 
-    logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"
-            +str(vehicle.location.global_relative_frame)+'\n'
-            +"velocity:"+str(vehicle.velocity)+'\n'
-            +"system_status:"+str(vehicle.system_status.state)+'\n'
-            +"vehicle mode:"+str(vehicle.mode.name)+'\n'
-            +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
-            +str(vehicle.attitude)+"\n"
-            +str(vehicle.battery)+"\n\n")
+def goto_gps(latitude,longitude,altitude):
+    targetLocation = LocationGlobalRelative(latitude,longitude,altitude)
+    targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+    vehicle.simple_goto(targetLocation) 
+    while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+        #print "DEBUG: mode: %s" % vehicle.mode.name
+        remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+        print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+        logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"
+                +str(vehicle.location.global_relative_frame)+'\n'
+                +"velocity:"+str(vehicle.velocity)+'\n'
+                +"system_status:"+str(vehicle.system_status.state)+'\n'
+                +"vehicle mode:"+str(vehicle.mode.name)+'\n'
+                +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
+                +str(vehicle.attitude)+"\n"
+                +str(vehicle.battery)+"\n\n")
+        if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+            print "Reached target"
+            break;
+        time.sleep(2)
+    print("goto complete")
 
-    if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
-        print "Reached target"
-        break;
-    time.sleep(2)
-print("goto complete")
-time.sleep(5)
+goto_gps(24.945588, 121.369972, 10)
+time.sleep(10)
+goto_gps(24.946046, 121.370209, 10)
+time.sleep(10)
 
-
-
-print("Setting LAND mode...")
-vehicle.mode = VehicleMode("LAND")
+print("Setting RTL mode...")
+vehicle.mode = VehicleMode("RTL")
 
 
 #Close vehicle object before exiting script
