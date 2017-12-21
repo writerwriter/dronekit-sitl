@@ -34,7 +34,7 @@ def arm_and_takeoff(aTargetAltitude):
                         break
                 time.sleep(1)
 
-arm_and_takeoff(2)
+arm_and_takeoff(5)
 time.sleep(10)
 print "takeoff and hover complete"
 print "Mission complete! Time to land~"
