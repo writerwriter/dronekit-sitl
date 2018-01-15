@@ -51,7 +51,7 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 #Arm and take of to altitude of 5 meters
-arm_and_takeoff(10)
+arm_and_takeoff(5)
 
 
 
@@ -249,9 +249,9 @@ def goto_gps(latitude,longitude,altitude):
         time.sleep(2)
     print("goto complete")
 
-goto_gps(24.945588, 121.369972, 10)
+goto_gps(24.945588, 121.369972, 5)
 time.sleep(10)
-goto_gps(24.946046, 121.370209, 10)
+goto_gps(24.946046, 121.370209, 5)
 time.sleep(10)
 
 print("Setting RTL mode...")

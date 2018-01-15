@@ -48,7 +48,7 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 #Arm and take of to altitude of 5 meters
-arm_and_takeoff(2)
+arm_and_takeoff(5)
 
 
 
@@ -226,7 +226,7 @@ print vehicle.location.global_relative_frame
 
 print("Set groundspeed to 5m/s.")
 vehicle.airspeed = 1
-targetLocation = LocationGlobalRelative(24.945420, 121.370407, 2)
+targetLocation = LocationGlobalRelative(24.9456215, 121.3700629, 2)
 targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
 vehicle.simple_goto(targetLocation)
 while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
@@ -248,7 +248,7 @@ while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mo
         break;
     time.sleep(2)
 print("goto complete")
-time.sleep(10)
+time.sleep(5)
 
 
 
