@@ -7,12 +7,14 @@ import math
 import argparse  
 import time
 import picamera
+import g3
 
-#create log file
-
-
-logFile=open("log.txt","a+")
+create log file
 camera = picamera.PiCamera()
+air=g3.g3sensor()
+
+logFile=open("log_sitl.txt","a+")
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--connect', default='/dev/serial0')
 args = parser.parse_args()
@@ -218,36 +220,80 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
     # send command to vehicle on 1 Hz cycle
     for x in range(0,duration):
         vehicle.send_mavlink(msg)
-        time.sleep(1)    
+        time.sleep(1)
+
+
+def g3_print():
+    while True:
+        pmdata=0
+        try:
+            pmdata=air.read("/dev/ttyUSB0")
+        except: 
+            next
+        if pmdata != 0:
+            logFile.write(time.asctime(time.localtime(time.time()))+":"+str(pmdata)+"\n")
+            print pmdata
+        time.sleep(10)
 
 def check_status():
-	print "time:"+time.asctime(time.localtime(time.time()))+"\n"+str(vehicle.location.global_relative_frame)+'\n'+"velocity:"+str(vehicle.velocity)+'\n'+"system_status:"+str(vehicle.system_status.state)+'\n'+"vehicle mode:"+str(vehicle.mode.name)+'\n'+"EKF ok?:"+str(vehicle.ekf_ok)+'\n'+str(vehicle.attitude)+"\n"+str(vehicle.battery)+"\n\n"
+    print "time:"+time.asctime(time.localtime(time.time()))+"\n"+str(vehicle.location.global_relative_frame)+'\n'+"velocity:"+str(vehicle.velocity)+'\n'+"system_status:"+str(vehicle.system_status.state)+'\n'+"vehicle mode:"+str(vehicle.mode.name)+'\n'+"EKF ok?:"+str(vehicle.ekf_ok)+'\n'+str(vehicle.attitude)+"\n"+str(vehicle.battery)+"\n"
+    g3_print()
 
 def pi_camera_capture():
-	camera.capture("../picture/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".png")
-	time.sleep(1)
+    camera.capture("../picture/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".png")
+    time.sleep(1)
+
+def goto_gps(latitude,longitude,altitude):
+    targetLocation = LocationGlobalRelative(latitude,longitude,altitude)
+    targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+    vehicle.simple_goto(targetLocation) 
+    while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+        #print "DEBUG: mode: %s" % vehicle.mode.name
+        remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+        print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
+        logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"
+                +str(vehicle.location.global_relative_frame)+'\n'
+                +"velocity:"+str(vehicle.velocity)+'\n'
+                +"system_status:"+str(vehicle.system_status.state)+'\n'
+                +"vehicle mode:"+str(vehicle.mode.name)+'\n'
+                +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
+                +str(vehicle.attitude)+"\n"
+                +str(vehicle.battery)+"\n\n")
+        if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+            print "Reached target"
+            break;
+        check_status()
+        time.sleep(2)
+    print("goto complete")
 
 while True:
-	n = input("greetings~What are you going to do?(1:goto 2:takeoff 3:status 4:picturing 5:landing 6:close\n")
-	if n == 1:
-		h = input("takeoff heigt(m)")
-		dNorth = input("toward north(m)")
-		dEast = input("toward east(m)")
-		arm_and_takeoff(h)
-		goto(dNorth,dEast)
-	elif n == 2:
-		h = input("takeoff height(m)")
-		arm_and_takeoff(h)
-	elif n == 3:
-		check_status()
-	elif n == 4:
-		pi_camera_capture()
-	elif n == 5:
-		vehicle.mode = VehicleMode("LAND")
-	elif n == 6:
-		vehicle.close()
-		break
-	else:
-		continue
-
-
+    n = input("greetings~What are you going to do?(1:goto 2:takeoff 3:status 4:picturing 5:landing 6:squard 7.close\n")
+    if n == 1:
+        h = input("takeoff heigt(m)")
+        dNorth = input("toward north(m)")
+        dEast = input("toward east(m)")
+        arm_and_takeoff(h)
+        goto(dNorth,dEast)
+    elif n == 2:
+        h = input("takeoff height(m)")
+        arm_and_takeoff(h)
+    elif n == 3:
+        check_status()
+    elif n == 4:
+        pi_camera_capture()
+    elif n == 5:
+        vehicle.mode = VehicleMode("LAND")
+    elif n == 6:
+        goto_gps(24.946089, 121.370410, 10)
+        time.sleep(10)
+        goto_gps(24.945915, 121.370540, 10)
+        time.sleep(10)
+        goto_gps(24.945774, 121.370214, 10)
+        time.sleep(10)
+        print("Setting RTL mode...")
+        vehicle.mode = VehicleMode("RTL")
+    elif n == 7:
+        vehicle.close()
+        break
+    else:
+        continue
