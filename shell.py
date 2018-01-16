@@ -9,7 +9,6 @@ import time
 import picamera
 import g3
 
-create log file
 camera = picamera.PiCamera()
 air=g3.g3sensor()
 
@@ -284,11 +283,11 @@ while True:
     elif n == 5:
         vehicle.mode = VehicleMode("LAND")
     elif n == 6:
-        goto_gps(24.946089, 121.370410, 10)
+        goto_gps(24.946089, 121.370410, 7)
         time.sleep(10)
-        goto_gps(24.945915, 121.370540, 10)
+        goto_gps(24.945915, 121.370540, 7)
         time.sleep(10)
-        goto_gps(24.945774, 121.370214, 10)
+        goto_gps(24.945774, 121.370214, 7)
         time.sleep(10)
         print("Setting RTL mode...")
         vehicle.mode = VehicleMode("RTL")

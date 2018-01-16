@@ -6,9 +6,11 @@ from pymavlink import mavutil # Needed for command message definitions
 import time
 import math
 from droneapi.lib import Location
-
+import g3
+import serial
 #Set up option parsing to get connection string
 import argparse  
+air = g3.
 parser = argparse.ArgumentParser()
 parser.add_argument('--connect', default='/dev/serial0')
 args = parser.parse_args()
@@ -225,8 +227,8 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 print vehicle.location.global_relative_frame
 
 print("Set groundspeed to 5m/s.")
-vehicle.airspeed = 1
-targetLocation = LocationGlobalRelative(24.9456215, 121.3700629, 2)
+vehicle.airspeed = 5
+targetLocation = LocationGlobalRelative(24.9456215, 121.3700629, 5)
 targetDistance = get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
 vehicle.simple_goto(targetLocation)
 while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.

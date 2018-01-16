@@ -3586,4 +3586,22 @@ velocity:[-0.05, 0.14, 0.02]
 system_status:ACTIVE
 vehicle mode:GUIDED
 EKF ok?:True
-Attitude:pitch=0.00651404261589,yaw=-1.32586932182,roll=-0.00146909500
+Attitude:pitch=0.00651404261589,yaw=-1.32586932182,roll=-0.00146909500Tue Jan 16 16:35:34 2018:[4, 4, 4, 4, 4, 4]
+Tue Jan 16 16:35:44 2018:[2, 2, 2, 2, 2, 2]
+Tue Jan 16 16:35:54 2018:[2, 2, 2, 2, 2, 2]
+Tue Jan 16 16:36:05 2018:[0, 0, 0, 0, 0, 0]
+time:Tue Jan 16 16:37:08 2018
+LocationGlobalRelative:lat=24.9458001,lon=121.3701587,alt=7.19
+velocity:[-0.11, 0.0, 0.0]
+system_status:ACTIVE
+vehicle mode:GUIDED
+EKF ok?:True
+Attitude:pitch=-0.0034930719994,yaw=0.526421368122,roll=-0.048480220139
+Battery:voltage=10.328,current=16.21,level=58
+
+Tue Jan 16 16:37:09 2018:[32, 38, 38, 32, 38, 38]
+Tue Jan 16 16:37:20 2018:[102, 150, 130, 68, 124, 96]
+Tue Jan 16 16:37:31 2018:[84, 158, 116, 62, 128, 90]
+Tue Jan 16 16:37:41 2018:[68, 110, 94, 56, 102, 80]
+Tue Jan 16 16:37:52 2018:[56, 96, 78, 48, 94, 70]
+Tue Jan 16 16:38:02 2018:[40, 60, 50, 40, 60, 50]
