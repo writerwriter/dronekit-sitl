@@ -4,17 +4,15 @@ import random
 import time
 
 
-db = MySQLdb.connect(host="120.126.145.102",user="drone",passwd="dronemysql",db="106project")
-
-def getCursor():
+def getCursor(db):
 	cursor = db.cursor()
 	return cursor
-def closeDatabase():
+def closeDatabase(db):
 	db.close()
-def findResultMaxId():
+def findResultMaxId(db):
 	maxId = -1
 	sql = "SELECT MAX(mission_id) FROM mission_results"
-	cursor = getCursor()
+	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -24,10 +22,10 @@ def findResultMaxId():
 	except:
 		db.rollback()
 	return maxId
-def findMissionMaxId():
+def findMissionMaxId(db):
 	maxId = -1
 	sql = "SELECT MAX(mission_id) FROM mission_option"
-	cursor = getCursor()
+	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
 		results = cursor.fetchall()
@@ -37,12 +35,14 @@ def findMissionMaxId():
 	except:
 		db.rollback()
 	return maxId
-def printTask(Id = None):
+def printTask(db,Id = None):
 	if(Id is None):
 		Id = 0
 	isData = 0
-	sql = "SELECT * FROM mission_option WHERE mission_id >= %d" % Id
-	cursor = getCursor()
+	sql = "SELECT * FROM mission_option WHERE mission_id > %d" % Id
+	now_id = 1
+	first = 1
+	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
 		results  = cursor.fetchall()
@@ -53,17 +53,24 @@ def printTask(Id = None):
 			col1 =record[0]
 			col2 =record[1]
 			col3 =record[2]
-			print "Mission : %s Latitude : %s Longitude : %s" % (col1,col2,col3)
+			missionid = record[7]
+			if(first==1):
+				print "Mission : %s" % missionid
+				now_id=int(missionid)
+				first+=1
+			if(first==2 && now_id!=missionid):
+				first
+			print "		point_id : %s Latitude : %s Longitude : %s" % (col1,col2,col3)
 		if(isData == 0):
 			print "No Task to Do !"
 	except :
 		db.rollback()
-def getNextMission(Id = None):
+def getNextMission(db,Id = None):
 	next_mission = None
 	if(Id is None):
 		Id = 0
-	sql = "SELECT * FROM mission_option WHERE mission_id = %s" % str(int(Id)+1)
-	cursor = getCursor()
+	sql = "SELECT * FROM mission_option WHERE _id = %s" % str(int(Id)+1)
+	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
 		results  = cursor.fetchall()
@@ -77,29 +84,40 @@ def getNextMission(Id = None):
 	except :
 		db.rollback()
 	return next_mission
-def TaskDone(mission):
-	sql = "INSERT iNTO mission_results(mission_id, mission_latitude, mission_longitude,pm25,complete_id) VALUES (%d,%f,%f,%d,%d)" % (mission.mission_id,mission.mission_latitude,mission.mission_longitude,mission.pm25,mission.mission_id+1)
-	cursor = getCursor()
+def TaskDone(db,mission,is_abandoned):
+	sql = "INSERT iNTO mission_results(mission_id, mission_latitude, mission_longitude,pm25,complete_id,is_abandoned) VALUES (%d,%.15f,%.15f,%d,%d,%i)" % (mission.mission_id,mission.mission_latitude,mission.mission_longitude,mission.pm25,mission.mission_id+1,is_abandoned)
+	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
 		cursor.close()
 		db.commit()
-		print "mission %d complete." % mission.mission_id
+		if is_abandoned == False:
+			print "mission %d complete." % mission.mission_id
+		else:
+			print "Mission %d has been abandoned." % mission.mission_id
 	except:
 		db.rollback()
 if __name__ == '__main__':
-	Id = findResultMaxId()
+	db = MySQLdb.connect(host="120.126.145.102",user="drone",passwd="dronemysql",db="106project")
+	Id = findResultMaxId(db)
 	print "Last Task is %s" % Id
-	next_mission = getNextMission(str(int(Id)-1)) #fianl mission
+	next_mission = getNextMission(db,str(int(Id)-1)) #fianl mission
 	while True:
-		closeDatabase()
+		closeDatabase(db)
 		db = MySQLdb.connect(host="120.126.145.102",user="drone",passwd="dronemysql",db="106project")
-		if findResultMaxId() < findMissionMaxId():
-			next_mission = getNextMission(next_mission.mission_id)
+		if findResultMaxId(db) < findMissionMaxId(db):
+			printTask(db,findResultMaxId(db))
 			#doing mission
-			next_mission.setPM25(random.randint(1,100))
-			TaskDone(next_mission)
-			print "Last Task is %s" % findResultMaxId()
+			check = raw_input("you want to fly?(Y/n)")
+			if check is 'Y':
+				next_mission = getNextMission(db,next_mission.mission_id)
+				print "doing things"
+				next_mission.setPM25(random.randint(1,100))
+				TaskDone(db,next_mission,False)
+			elif check is 'n':
+				next_mission = getNextMission(db,next_mission.mission_id)
+				TaskDone(db,next_mission,True)
+			print "Last Task is %s" % findResultMaxId(db)
 	print ""
 	print "All Task Done !"
-	closeDatabase()
+	closeDatabase(db)
