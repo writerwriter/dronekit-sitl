@@ -40,26 +40,22 @@ def printTask(db,Id = None):
 		Id = 0
 	isData = 0
 	sql = "SELECT * FROM mission_option WHERE mission_id > %d" % Id
-	now_id = 1
-	first = 1
 	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
 		results  = cursor.fetchall()
 		cursor.close()
+		last_mission_id = findResultMaxId(db)
 		print "Task to do:"
 		for record in results:
+			if last_mission_id != record[7]:
+				print "mission %s:" % record[7]
+				last_mission_id = record[7]
 			isData = 1
 			col1 =record[0]
 			col2 =record[1]
 			col3 =record[2]
 			missionid = record[7]
-			if(first==1):
-				print "Mission : %s" % missionid
-				now_id=int(missionid)
-				first+=1
-			if(first==2 && now_id!=missionid):
-				first
 			print "		point_id : %s Latitude : %s Longitude : %s" % (col1,col2,col3)
 		if(isData == 0):
 			print "No Task to Do !"
