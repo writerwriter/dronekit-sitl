@@ -52,7 +52,10 @@ def printTask(db,Id = None):
 			col1 =record[0]
 			col2 =record[1]
 			col3 =record[2]
-			print "		point_id : %s Latitude : %s Longitude : %s" % (col1,col2,col3)
+			photo_s = record[4]
+			video_s = record[5]
+			pm25_s = record[6]
+			print "	point_id : %s Latitude : %s Longitude : %s Photo:%s Video:%s Pm25:%s" % (col1,col2,col3,photo_s,video_s,pm25_s)
 		if(isData == 0):
 			print "No Task to Do !"
 	except :
@@ -72,7 +75,10 @@ def getNextMission(db,Id = None):
 			col1 =record[0]
 			col2 =record[1]
 			col3 =record[2]
-			print "Mission : %s Latitude : %s Longitude : %s" % (col1,col2,col3)
+			photo_s = record[4]
+			video_s = record[5]
+			pm25_s = record[6]
+			print "	point_id : %s Latitude : %s Longitude : %s Photo:%s Video:%s Pm25:%s" % (col1,col2,col3,photo_s,video_s,pm25_s)
 	except :
 		db.rollback()
 	return next_mission
@@ -100,11 +106,16 @@ if __name__ == '__main__':
 		if findResultMaxId(db) < findMissionMaxId(db):
 			printTask(db,findResultMaxId(db))
 			#doing mission
-			check = raw_input("you want to fly?(Y/n)")
+			
+			#check = raw_input("you want to fly?(Y/n)")
+			check = "Y"
 			if check is 'Y':
 				next_mission = getNextMission(db,next_mission.mission_id)
+				ispm25 = int(next_mission.pm25_sensor)
+				print next_mission.pm25_sensor,next_mission.video_sensor,next_mission.photo_sensor
 				print "doing things"
-				next_mission.setPM25(random.randint(1,100))
+				if(ispm25==1):
+					next_mission.setPM25(random.randint(1,100))
 				TaskDone(db,next_mission,False)
 			elif check is 'n':
 				next_mission = getNextMission(db,next_mission.mission_id)
