@@ -11,7 +11,7 @@ def closeDatabase(db):
 	db.close()
 def findResultMaxId(db):
 	maxId = -1
-	sql = "SELECT MAX(mission_id) FROM mission_results"
+	sql = "SELECT MAX(waypoint_id) FROM mission_results"
 	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
@@ -24,7 +24,7 @@ def findResultMaxId(db):
 	return maxId
 def findMissionMaxId(db):
 	maxId = -1
-	sql = "SELECT MAX(mission_id) FROM mission_option"
+	sql = "SELECT MAX(waypoint_id) FROM mission_option"
 	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
@@ -39,7 +39,7 @@ def printTask(db,Id = None):
 	if(Id is None):
 		Id = 0
 	isData = 0
-	sql = "SELECT * FROM mission_option WHERE mission_id > %d" % Id
+	sql = "SELECT * FROM mission_option WHERE waypoint_id > %d" % Id
 	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
@@ -48,14 +48,10 @@ def printTask(db,Id = None):
 		last_mission_id = findResultMaxId(db)
 		print "Task to do:"
 		for record in results:
-			if last_mission_id != record[7]:
-				print "mission %s:" % record[7]
-				last_mission_id = record[7]
 			isData = 1
 			col1 =record[0]
 			col2 =record[1]
 			col3 =record[2]
-			missionid = record[7]
 			print "		point_id : %s Latitude : %s Longitude : %s" % (col1,col2,col3)
 		if(isData == 0):
 			print "No Task to Do !"
@@ -65,7 +61,7 @@ def getNextMission(db,Id = None):
 	next_mission = None
 	if(Id is None):
 		Id = 0
-	sql = "SELECT * FROM mission_option WHERE _id = %s" % str(int(Id)+1)
+	sql = "SELECT * FROM mission_option WHERE waypoint_id = %s" % str(int(Id)+1)
 	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
@@ -81,7 +77,7 @@ def getNextMission(db,Id = None):
 		db.rollback()
 	return next_mission
 def TaskDone(db,mission,is_abandoned):
-	sql = "INSERT iNTO mission_results(mission_id, mission_latitude, mission_longitude,pm25,complete_id,is_abandoned) VALUES (%d,%.15f,%.15f,%d,%d,%i)" % (mission.mission_id,mission.mission_latitude,mission.mission_longitude,mission.pm25,mission.mission_id+1,is_abandoned)
+	sql = "INSERT iNTO mission_results(waypoint_id, mission_latitude, mission_longitude,pm25,is_abandoned) VALUES (%d,%.15f,%.15f,%d,%i)" % (mission.mission_id,mission.mission_latitude,mission.mission_longitude,mission.pm25,is_abandoned)
 	cursor = getCursor(db)
 	try:
 		cursor.execute(sql)
