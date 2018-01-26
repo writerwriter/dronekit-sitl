@@ -10,8 +10,10 @@ import g3
 import MySQLdb
 import Mission
 import random
+import picamera
 
 if __name__ == '__main__':
+	camera = picamera.PiCamera()
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--connect', default='/dev/serial0')
 	args = parser.parse_args()
