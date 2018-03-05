@@ -4,7 +4,7 @@ import time
 import math
 from droneapi.lib import Location
 import argparse
-import g3
+#import g3
 
 def arm_and_takeoff(vehicle,aTargetAltitude):
     """
@@ -191,7 +191,7 @@ def send_global_velocity(vehicle,velocity_x, velocity_y, velocity_z, duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)    
 
-def goto_gps(vehicle,latitude,longitude,altitude,logFile,isPhoto,isPm25,isVideo):
+"""def goto_gps(vehicle,latitude,longitude,altitude,logFile,isPhoto,isPm25,isVideo):
     targetLocation = LocationGlobalRelative(latitude,longitude,altitude)
     targetDistance = get_distance_metres(vehicle,vehicle.location.global_relative_frame, targetLocation)
     vehicle.simple_goto(targetLocation) 
@@ -223,4 +223,5 @@ def goto_gps(vehicle,latitude,longitude,altitude,logFile,isPhoto,isPm25,isVideo)
         time.sleep(2)
     print("goto complete")
     return pm25_data/count
+    """
 
