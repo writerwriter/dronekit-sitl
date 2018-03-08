@@ -4,6 +4,7 @@ import time
 import math
 from droneapi.lib import Location
 import argparse
+import log
 #import g3
 
 def arm_and_takeoff(vehicle,aTargetAltitude):
