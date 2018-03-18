@@ -196,18 +196,10 @@ def goto_gps(vehicle,latitude,longitude,altitude,logFile,isPhoto,isPm25,isVideo)
     targetLocation = LocationGlobalRelative(latitude,longitude,altitude)
     targetDistance = get_distance_metres(vehicle,vehicle.location.global_relative_frame, targetLocation)
     vehicle.simple_goto(targetLocation) 
-    #air=g3.g3sensor()
-    #pm25_data = 0
+    
     count = 0
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         #print "DEBUG: mode: %s" % vehicle.mode.name
-        """
-        if(isPm25==1):
-            pmdata=0
-            pmdata=air.read("/dev/ttyUSB0")
-            pm25_data = pm25_data + int(pmdata[5])
-            count = count + 1
-        """
         remainingDistance=get_distance_metres(vehicle,vehicle.location.global_relative_frame, targetLocation)
         print "Distance to target: ", remainingDistance, ",gps: ",vehicle.location.global_relative_frame
         logFile.write("time:"+time.asctime(time.localtime(time.time()))+"\n"

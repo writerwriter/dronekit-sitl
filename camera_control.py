@@ -1,7 +1,7 @@
 import time
 import picamera
-def pi_camera_capture(camera):
-    camera.capture("../picture/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".png")
+def pi_camera_capture(camera,target_folder,point_number):
+    camera.capture("/drone/dronekit-sitl/picture/"+target+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png")
     time.sleep(1)
 def pi_camera_recording(camera):
 	camera.start_recording(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".h264")

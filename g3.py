@@ -82,6 +82,21 @@ class g3sensor():
             self.data = self.read_data()
             if debug: print self.data
             return self.data
+    def gsleep(times):
+    	pmdata = 0
+    	sums = 0
+    	for i in range(int(times)):
+    		air = g3sensor()
+    		try:
+    			temp = air.read("/dev/ttyUSB0")
+    		except:
+    			next
+    		if temp != 0:
+    			sums = sums + int(temp[5])
+    		time.sleep(1)
+    	pmdata = sums/float(times)
+    	return pmdata
+
 
 if __name__ == '__main__': 
     air=g3sensor()
