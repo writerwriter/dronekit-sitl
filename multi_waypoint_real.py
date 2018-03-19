@@ -45,7 +45,7 @@ if __name__ == '__main__':
 			if check is 'Y':
 				waypoint_counter = 0
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
-				Mission_number = next_multi_mission.mission_id
+				Mission_number = next_multi_mission[0].mission_id
 				print "Mission number is %d" % Mission_number
 				ftransfer.making_direc("/drone/dronekit-sitl/picture/",str(Mission_number))
 				for waypoint_mission in next_multi_mission:
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 						Drone.arm_and_takeoff(vehicle, 7)
 						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
-					Drone.goto_gps(vehicle,waypoint_mission.latitude, waypoint_mission.mission_longitude, 7, logFile, photo_sensor, pm25_sensor, video_sensor)
+					Drone.goto_gps(vehicle,waypoint_mission.latitude, waypoint_mission.mission_longitude, 7, logFile)
 					pmdata = g3.gsleep(5)
 					waypoint_mission.set_pm25_data(pmdata)
 					if photo_sensor ==1:

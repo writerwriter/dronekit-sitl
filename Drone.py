@@ -192,7 +192,7 @@ def send_global_velocity(vehicle,velocity_x, velocity_y, velocity_z, duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)    
 
-def goto_gps(vehicle,latitude,longitude,altitude,logFile,isPhoto,isPm25,isVideo):
+def goto_gps(vehicle,latitude,longitude,altitude,logFile):
     targetLocation = LocationGlobalRelative(latitude,longitude,altitude)
     targetDistance = get_distance_metres(vehicle,vehicle.location.global_relative_frame, targetLocation)
     vehicle.simple_goto(targetLocation) 
@@ -209,8 +209,7 @@ def goto_gps(vehicle,latitude,longitude,altitude,logFile,isPhoto,isPm25,isVideo)
                 +"vehicle mode:"+str(vehicle.mode.name)+'\n'
                 +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
                 +str(vehicle.attitude)+"\n"
-                +str(vehicle.battery)+"\n"
-                +str(time.asctime(time.localtime(time.time()))+":"+" pm2.5 : " + str(pmdata[5]) +"\n\n"))
+                +str(vehicle.battery)+"\n")
         if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
             print "Reached target"
             break;
