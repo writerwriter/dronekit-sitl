@@ -1,13 +1,16 @@
 import time
 import picamera
-def pi_camera_capture(camera,target_folder,point_number):
-    camera.capture("/drone/dronekit-sitl/picture/"+target+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png")
+def capture(camera,mission_number,point_number):
+    camera.capture("/drone/dronekit-sitl/picture/"+"MISSION_"+mission_number+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png")
     time.sleep(1)
-def pi_camera_recording(camera):
-	camera.start_recording(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".h264")
+def recording(camera):
+    camera.start_recording(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".h264")
 
-def pi_camera_resolution(camera, length, width):
-	camera.resolution = (length, width)
+def resolution(camera, length, width):
+    camera.resolution = (length, width)
+def close(camera):
+    camera.close()
+    time.sleep(1)
 if __name__ == '__main__':
 	
 	choice = raw_input('1.photo 2.recording : ')
