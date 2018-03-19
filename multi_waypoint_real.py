@@ -57,8 +57,10 @@ if __name__ == '__main__':
 						Drone.arm_and_takeoff(vehicle, 7)
 						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
-					Drone.goto_gps(vehicle,waypoint_mission.latitude, waypoint_mission.mission_longitude, 7, logFile)
-					pmdata = g3.gsleep(5)
+					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, 7, logFile)
+					#pmdata = g3.gsleep(5)
+					pmdata = 0
+					time.sleep(5)
 					waypoint_mission.set_pm25_data(pmdata)
 					if photo_sensor ==1:
 						ccontrol.pi_camera_capture(camera,str(Mission_number),str(waypoint_counter))
