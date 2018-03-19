@@ -45,6 +45,7 @@ if __name__ == '__main__':
 			if check is 'Y':
 				waypoint_counter = 0
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
+				sql.printTask(db, sql.findResultMaxId(db))
 				Mission_number = next_multi_mission[0].mission_id
 				print "Mission number is %d" % Mission_number
 				ftransfer.making_direc("/drone/dronekit-sitl/picture/",str(Mission_number))

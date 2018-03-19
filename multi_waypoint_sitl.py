@@ -49,7 +49,7 @@ if __name__ == '__main__':
 		if sql.findResultMaxId(db) < sql.findMissionMaxId(db):
 			sql.printTask(db, sql.findResultMaxId(db))
 
-			check = raw_input("you want to fly?(Y/n)")
+			check = raw_input("you want to fly or search again?(Y/n/r)")
 			if check is 'Y':
 				waypoint_counter = 0
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
@@ -61,10 +61,11 @@ if __name__ == '__main__':
 
 					if waypoint_counter == 0:
 						Drone.arm_and_takeoff(vehicle, 7)
-						print("set groundspeed to 5m/s.")
+						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
-					Drone.goto_gps(vehicle,waypoint_mission.latitude, waypoint_mission.mission_longitude, 7, logFile, photo_sensor, pm25_sensor, video_sensor)
+					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, 7, logFile)
 					time.sleep(5)
+					waypoint_mission.set_pm25_data(-1)
 					waypoint_counter += 1
 
 				sql.TaskDone(db, next_multi_mission, False)
@@ -74,6 +75,8 @@ if __name__ == '__main__':
 			elif check is 'n':
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
 				sql.TaskDone(db, next_multi_mission, True)
+			elif check is 'r':
+				continue
 			print "last Task is %s" % sql.findResultMaxId(db)
 	print ""
 	print "All Task Done !"

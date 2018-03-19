@@ -210,7 +210,7 @@ def goto_gps(vehicle,latitude,longitude,altitude,logFile):
                 +"EKF ok?:"+str(vehicle.ekf_ok)+'\n'
                 +str(vehicle.attitude)+"\n"
                 +str(vehicle.battery)+"\n")
-        if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+        if remainingDistance<=1: #Just below target, in case of undershoot.
             print "Reached target"
             break;
         time.sleep(2)
