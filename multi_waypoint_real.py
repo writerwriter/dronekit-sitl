@@ -75,9 +75,9 @@ if __name__ == '__main__':
 				vehicle.mode = VehicleMode("RTL")
 				uploader = raw_input("Task is Done,do you want to upload the data ?(Y/n)")
 				if uploader is 'Y':
-					if ft.fileCount(str(Mission_number)) > 0:
-						ft.transfer(str(Mission_number))
-						print "Finish upload..( %d photos )" % ft.fileCount(str(Mission_number))
+					if ftransfer.fileCount(str(Mission_number)) > 0:
+						ftransfer.transfer(str(Mission_number))
+						print "Finish upload..( %d photos )" % ftransfer.fileCount(str(Mission_number))
 				elif uploader is 'n':
 					print "Finish..."
 			elif check is 'n':
@@ -91,10 +91,4 @@ if __name__ == '__main__':
 	
 	print "Close vehicle object"
 	vehicle.close()
-
-
-
-
-
-
 
