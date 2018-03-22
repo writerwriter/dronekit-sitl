@@ -56,7 +56,7 @@ if __name__ == '__main__':
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
 					print "Sensor:"
-					print "pm2.5:%d  video:%d  photo:%d" % pm25_sensor,video_sensor,photo_sensor
+					print "pm2.5:%d  video:%d  photo:%d" % (pm25_sensor,video_sensor,photo_sensor)
 					if waypoint_counter == 0:
 						Drone.arm_and_takeoff(vehicle, 7)
 						print "set groundspeed to 5m/s."
@@ -75,9 +75,9 @@ if __name__ == '__main__':
 				vehicle.mode = VehicleMode("RTL")
 				uploader = raw_input("Task is Done,do you want to upload the data ?(Y/n)")
 				if uploader is 'Y':
-					if ft.fileCount(str(Mission_number)) > 0:
-						ft.transfer(str(Mission_number))
-						print "Finish upload..( %d photos )" % ft.fileCount(str(Mission_number))
+					if ftransfer.fileCount(str(Mission_number)) > 0:
+						ftransfer.transfer(str(Mission_number))
+						print "Finish upload..( %d photos )" % ftransfer.fileCount(str(Mission_number))
 				elif uploader is 'n':
 					print "Finish..."
 			elif check is 'n':
