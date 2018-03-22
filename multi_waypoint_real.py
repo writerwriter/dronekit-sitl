@@ -92,9 +92,3 @@ if __name__ == '__main__':
 	print "Close vehicle object"
 	vehicle.close()
 
-
-
-
-
-
-
