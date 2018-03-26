@@ -76,19 +76,21 @@ if __name__ == '__main__':
 					if photo_sensor == 1:
 						Drone.condition_yaw(vehicle,0)
 						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-
+						print "degree 0 , success"
 						Drone.condition_yaw(vehicle,90)
 						square_count = square_count+1
 						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						
+						print "degree 90 , success"
 						Drone.condition_yaw(vehicle,180)
 						square_count = square_count+1
 						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						
+						print "degree 180 , success"
 						Drone.condition_yaw(vehicle,270)
 						square_count = square_count+1
 						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						print " point %d picture : success" % waypoint_counter
+						print "degree 270 , success"
+
+						print " Point %d picture : success" % waypoint_counter
 					waypoint_counter += 1
 				
 				sql.TaskDone(db, next_multi_mission, False)
