@@ -52,6 +52,7 @@ if __name__ == '__main__':
 				print "Mission number is %d" % Mission_number
 				ftransfer.making_direc(str(Mission_number))
 				for waypoint_mission in next_multi_mission:
+					square_count = 1
 					pm25_sensor = int(waypoint_mission.pm25_sensor)
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
@@ -66,20 +67,33 @@ if __name__ == '__main__':
 					
 					waypoint_mission.set_pm25_data(pmdata)
 					if photo_sensor == 1:
-						cc.capture(camera,str(Mission_number),str(waypoint_counter))
+						Drone.condition_yaw(vehicle,0)
+						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
+
+						Drone.condition_yaw(vehicle,90)
+						square_count = square_count+1
+						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
+						
+						Drone.condition_yaw(vehicle,180)
+						square_count = square_count+1
+						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
+						
+						Drone.condition_yaw(vehicle,270)
+						square_count = square_count+1
+						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
 						print " point %d picture : success" % waypoint_counter
 					waypoint_counter += 1
 				
 				sql.TaskDone(db, next_multi_mission, False)
 				print "Setting RTL mode..."
 				vehicle.mode = VehicleMode("RTL")
-				uploader = raw_input("Task is Done,do you want to upload the data ?(Y/n)")
-				if uploader is 'Y':
-					if ftransfer.fileCount(str(Mission_number)) > 0:
+				if photo_sensor ==1:
+					uploader = raw_input("Task is Done,do you want  upload the data ?(Y/n)")
+					if uploader is 'Y' :
 						ftransfer.transfer(str(Mission_number))
-						print "Finish upload..( %d photos )" % ftransfer.fileCount(str(Mission_number))
-				elif uploader is 'n':
-					print "Finish..."
+						print "Finish upload.."
+					elif uploader is 'n':
+						print "Skip the upload step..."
 			elif check is 'n':
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
 				sql.TaskDone(db, next_multi_mission, True)

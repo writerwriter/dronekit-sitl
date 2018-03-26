@@ -1,4 +1,3 @@
-import picamera
 import os
 import subprocess as sb
 
@@ -11,7 +10,7 @@ def transfer(target_folder):
 	sb.call(["sshpass","-p","unigrid","scp","-r","/drone/dronekit-sitl/picture/MISSION_"+target_folder,"dmcl@120.126.145.102:/var/www/html/dronePicture"])
 	print "transfer finish..."
 def fileCount(foldername):
-	return len([name for name in os.listdir('/drone/dronekit-sitl/picture/MISSION_'+foldername+"/") if os.path.isfile(name)])
+	return len([name for name in os.listdir('/drone/dronekit-sitl/picture/MISSION_'+foldername) if os.path.isfile(name)])
 
 if __name__ == '__main__':
 	print "create testfolder on /drone/dronekit-sitl/picture/testfolder"
