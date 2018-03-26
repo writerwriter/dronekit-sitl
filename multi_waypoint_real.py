@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
 	vehicle = connect(args.connect, baud=57600, wait_ready=True)
 	#open log file
-	logFile=open("log_multi_waypoint.txt","a+")
+	
 
 	#connect to mysql
 	db = MySQLdb.connect(host="120.126.145.102",user="drone",passwd="dronemysql",db="106project")
@@ -50,12 +50,19 @@ if __name__ == '__main__':
 				sql.printTask(db, sql.findResultMaxId(db))
 				Mission_number = next_multi_mission[0].mission_id
 				print "Mission number is %d" % Mission_number
+
+				daytimes = time.strftime("%Y-%m-%d",time.localtime())
+				logFile=open("./log_file/"+daytimes+"_MISSION_"+str(Mission_number)+".txt","a+")
+
+
 				ftransfer.making_direc(str(Mission_number))
 				for waypoint_mission in next_multi_mission:
 					square_count = 1
 					pm25_sensor = int(waypoint_mission.pm25_sensor)
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
+
+					logFile.write("Points  "+str(waypoint_counter)+":"+"\n")
 					print "Sensor:"
 					print "pm2.5:%d  video:%d  photo:%d" % (pm25_sensor,video_sensor,photo_sensor)
 					if waypoint_counter == 0:
