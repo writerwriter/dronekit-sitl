@@ -62,7 +62,9 @@ if __name__ == '__main__':
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
 
-					logFile.write("Points  "+str(waypoint_counter)+":"+"\n")
+					waypoint_mission.set_point_num(waypoint_counter+1)
+					
+					logFile.write("Points  "+str(waypoint_counter+1)+":"+"\n")
 					print "Sensor:"
 					print "pm2.5:%d  video:%d  photo:%d" % (pm25_sensor,video_sensor,photo_sensor)
 					if waypoint_counter == 0:
@@ -90,7 +92,7 @@ if __name__ == '__main__':
 						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
 						print "degree 270 , success"
 
-						print " Point %d picture : success" % waypoint_counter
+						print " Point %d picture : success" % waypoint_counter+1
 					waypoint_counter += 1
 				
 				sql.TaskDone(db, next_multi_mission, False)

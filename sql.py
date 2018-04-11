@@ -89,7 +89,7 @@ def TaskDone(db,multi_waypoint_mission,is_abandoned):
 	mission_id = 0
 	for waypoint_mission in multi_waypoint_mission:
 		mission_id = waypoint_mission.mission_id
-		sql = "INSERT iNTO mission_results(waypoint_id, mission_latitude, mission_longitude, mission_id, is_abandoned, pm25_data) VALUES (%d,%.15f,%.15f,%d,%i,%f)" % (waypoint_mission.waypoint_id, waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, waypoint_mission.mission_id, is_abandoned, waypoint_mission.pm25_data)
+		sql = "INSERT iNTO mission_results(waypoint_id, mission_latitude, mission_longitude, mission_id, pointNum,is_abandoned, pm25_data) VALUES (%d,%.15f,%.15f,%d,%d,%i,%f)" % (waypoint_mission.waypoint_id, waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, waypoint_mission.mission_id, waypoint_mission.point_num ,is_abandoned, waypoint_mission.pm25_data)
 		cursor = getCursor(db)
 		try:
 			cursor.execute(sql)

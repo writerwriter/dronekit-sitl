@@ -41,12 +41,10 @@ def arm_and_takeoff(vehicle,aTargetAltitude):
 
 
 def condition_yaw(vehicle,heading, relative=False):
-    # 使用相对角度或绝对方位
     if relative:
         is_relative = 1 #yaw relative to direction of travel
     else:
         is_relative = 0 #yaw is an absolute angle
-    # 若使用相对角度，则进行顺时针或逆时针转动
     # create the CONDITION_YAW command using command_long_encode()
     msg = vehicle.message_factory.command_long_encode(
         0, 0,    # target system, target component

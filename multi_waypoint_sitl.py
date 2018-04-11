@@ -58,7 +58,7 @@ if __name__ == '__main__':
 					pm25_sensor = int(waypoint_mission.pm25_sensor)
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
-
+					waypoint_mission.set_point_num(waypoint_counter+1)
 					if waypoint_counter == 0:
 						Drone.arm_and_takeoff(vehicle, 7)
 						print "set groundspeed to 5m/s."
@@ -84,7 +84,6 @@ if __name__ == '__main__':
 
 	print "Close vehicle object"
 	vehicle.close()
-
 
 
 
