@@ -104,7 +104,7 @@ if __name__ == '__main__':
     while True:
         pmdata=0
         try:
-            pmdata=air.read("/dev/ttyUSB0")
+            pmdata=air.read("/dev/ttyUSB1")
         except: 
             next
         if pmdata != 0:
