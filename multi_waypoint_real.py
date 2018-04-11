@@ -107,6 +107,8 @@ if __name__ == '__main__':
 						print "Skip the upload step..."
 			elif check is 'n':
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
+				for waypoint_mission in next_multi_mission:
+					waypoint_mission.set_pm25_data(0)
 				sql.TaskDone(db, next_multi_mission, True)
 			print "last Task is %s" % sql.findResultMaxId(db)
 	camera.close()
