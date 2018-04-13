@@ -76,23 +76,50 @@ if __name__ == '__main__':
 					
 					waypoint_mission.set_pm25_data(pmdata)
 					if photo_sensor == 1:
-						Drone.condition_yaw(vehicle,0)
-						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						print "degree 0 , success"
-						Drone.condition_yaw(vehicle,90)
-						square_count = square_count+1
-						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						print "degree 90 , success"
-						Drone.condition_yaw(vehicle,180)
-						square_count = square_count+1
-						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						print "degree 180 , success"
-						Drone.condition_yaw(vehicle,270)
-						square_count = square_count+1
-						cc.capture(camera,str(Mission_number),str(waypoint_counter)+"_"+str(square_count))
-						print "degree 270 , success"
+						Success = True
+						try:
+							Drone.condition_yaw(vehicle,0)
+							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
+							sql.passPhoto(db,waypoint_mission,loc)
+							print "degree 0 , success"
+						except:
+							print "except : degree 0"
+							Success = False
 
-						print " Point %d picture : success" % waypoint_counter+1
+						try:
+							Drone.condition_yaw(vehicle,90)
+							square_count = square_count+1
+							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
+							sql.passPhoto(db,waypoint_mission,loc)
+							print "degree 90 , success"
+						except:
+							print "except : degree 90"
+							Success = False
+
+						try:
+							Drone.condition_yaw(vehicle,180)
+							square_count = square_count+1
+							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
+							sql.passPhoto(db,waypoint_mission,loc)
+							print "degree 180 , success"
+						except:
+							print "except : degree 180"
+							Success = False
+
+						try:
+							Drone.condition_yaw(vehicle,270)
+							square_count = square_count+1
+							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
+							sql.passPhoto(db,waypoint_mission,loc)
+							print "degree 270 , success"
+						except:
+							print "except : degree 270"
+							Success = False
+							
+						if Success is True:
+							print " Point %d picture : Finish" % waypoint_counter+1
+						elif Success is False:
+							print " Point %d picture : False" % waypoint_counter+1
 					waypoint_counter += 1
 				
 				sql.TaskDone(db, next_multi_mission, False)

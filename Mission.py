@@ -9,5 +9,5 @@ class Mission:
 		self.mission_id = mission_id
 	def set_pm25_data(self, pm25):
 		self.pm25_data = pm25
-	def set_point_num(self,point):
+	def set_point_num(self,point=None):
 		self.point_num = point

@@ -85,10 +85,25 @@ def getNextMission(db,Id = None):
 	except :
 		db.rollback()
 	return multi_waypoint_mission
+def passPhoto(db,waypoint_mission,location):
+	cursor = getCursor(db)
+	missionid = waypoint_mission.mission_id	
+	pointnum = waypoint_mission.point_num
+	image_str = location
+	txt_str = "MISSION" + str(missionid) + " picture " +str(pointnum)
+	try:
+		cursor.execute("INSERT iNTO image_display(mission_id, pointNum,image, txt) VALUES (%s,%s,%s,%s)",(missionid,pointnum,image_str,txt_str))
+		cursor.close()
+		db.commit()
+	except:
+		db.rollback()
 def TaskDone(db,multi_waypoint_mission,is_abandoned):
 	mission_id = 0
 	for waypoint_mission in multi_waypoint_mission:
 		mission_id = waypoint_mission.mission_id
+		if is_abandoned :
+			waypoint_mission.point_num = -1
+			waypoint_mission.pm25_data = -1
 		sql = "INSERT iNTO mission_results(waypoint_id, mission_latitude, mission_longitude, mission_id, pointNum,is_abandoned, pm25_data) VALUES (%d,%.15f,%.15f,%d,%d,%i,%f)" % (waypoint_mission.waypoint_id, waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, waypoint_mission.mission_id, waypoint_mission.point_num ,is_abandoned, waypoint_mission.pm25_data)
 		cursor = getCursor(db)
 		try:
