@@ -3,7 +3,7 @@ import picamera
 def capture(camera,mission_number,point_number):
     camera.capture("/drone/dronekit-sitl/picture/"+"MISSION_"+mission_number+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png")
     time.sleep(1)
-    return "/drone/dronekit-sitl/picture/"+"MISSION_"+mission_number+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png"
+    return "/dronePicture/"+"MISSION_"+mission_number+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png"
 def recording(camera):
     camera.start_recording(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+".h264")
 
