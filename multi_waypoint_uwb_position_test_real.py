@@ -13,7 +13,7 @@ import Mission
 import random
 import picamera
 import folder_transfer as ftransfer
-
+import Get_uwb_position
 if __name__ == '__main__':
 	#pm25 connect
 	air = g3.g3sensor()
@@ -27,6 +27,7 @@ if __name__ == '__main__':
 	vehicle = connect(args.connect, baud=57600, wait_ready=True)
 	#open log file
 	
+	home_location = []
 
 	#connect to mysql
 	db = MySQLdb.connect(host="120.126.145.102",user="drone",passwd="dronemysql",db="106project")
@@ -45,7 +46,6 @@ if __name__ == '__main__':
 
 			check = raw_input("you want to fly?(Y/n)")
 			if check is 'Y':
-				sql_picture_insert = []
 				waypoint_counter = 0
 				next_multi_mission = sql.getNextMission(db, next_multi_mission[0].mission_id)
 				sql.printTask(db, sql.findResultMaxId(db))
@@ -69,6 +69,8 @@ if __name__ == '__main__':
 					print "Sensor:"
 					print "pm2.5:%d  video:%d  photo:%d" % (pm25_sensor,video_sensor,photo_sensor)
 					if waypoint_counter == 0:
+						home_location.append(vehicle.location.global_relative_frame.latitude
+						home_location.append(vehicle.location.global_relative_frame.longitude)
 						Drone.arm_and_takeoff(vehicle, 7)
 						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
@@ -81,8 +83,7 @@ if __name__ == '__main__':
 						try:
 							Drone.condition_yaw(vehicle,0)
 							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							#sql.passPhoto(db,waypoint_mission,loc)
-							sql_picture_insert.append((Mission_number,waypoint_counter+1,loc,"MISSION"+Mission_number+" picture "+waypoint_counter+1))
+							sql.passPhoto(db,waypoint_mission,loc)
 							print "degree 0 , success"
 						except:
 							print "except : degree 0"
@@ -92,8 +93,7 @@ if __name__ == '__main__':
 							Drone.condition_yaw(vehicle,90)
 							square_count = square_count+1
 							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							#sql.passPhoto(db,waypoint_mission,loc)
-							sql_picture_insert.append((Mission_number,waypoint_counter+1,loc,"MISSION"+Mission_number+" picture "+waypoint_counter+1))
+							sql.passPhoto(db,waypoint_mission,loc)
 							print "degree 90 , success"
 						except:
 							print "except : degree 90"
@@ -103,8 +103,7 @@ if __name__ == '__main__':
 							Drone.condition_yaw(vehicle,180)
 							square_count = square_count+1
 							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							#sql.passPhoto(db,waypoint_mission,loc)
-							sql_picture_insert.append((Mission_number,waypoint_counter+1,loc,"MISSION"+Mission_number+" picture "+waypoint_counter+1))
+							sql.passPhoto(db,waypoint_mission,loc)
 							print "degree 180 , success"
 						except:
 							print "except : degree 180"
@@ -114,13 +113,12 @@ if __name__ == '__main__':
 							Drone.condition_yaw(vehicle,270)
 							square_count = square_count+1
 							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							#sql.passPhoto(db,waypoint_mission,loc)
-							sql_picture_insert.append((Mission_number,waypoint_counter+1,loc,"MISSION"+Mission_number+" picture "+waypoint_counter+1))
+							sql.passPhoto(db,waypoint_mission,loc)
 							print "degree 270 , success"
 						except:
 							print "except : degree 270"
 							Success = False
-
+							
 						if Success is True:
 							print " Point %d picture : Finish" % waypoint_counter+1
 						elif Success is False:
@@ -128,16 +126,22 @@ if __name__ == '__main__':
 					waypoint_counter += 1
 				
 				sql.TaskDone(db, next_multi_mission, False)
-				print "Setting RTL mode..."
-				vehicle.mode = VehicleMode("RTL")
+				Drone.goto_gps(vehicle,home_location[0],home_location[1],7,log_file)
+				
+				while True:
+					report = Get_uwb_position.Get_uwb_position()
+					Drone.send_ned_velocity((500-report[1])/200.0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
+					time.sleep(2)
+					result = Get_uwb_location.Get_uwb_location()
+					if math.fabs(500-result[1]) < 30 && math.fabs(5*math.pow(3,0.5)*100-result[0]) < 30:
+						break
+				vehicle.mode = VehicleMode("LAND")
+
 				if photo_sensor ==1:
 					uploader = raw_input("Task is Done,do you want  upload the data ?(Y/n)")
 					if uploader is 'Y' :
 						ftransfer.transfer(str(Mission_number))
 						print "Finish upload.."
-						for string in sql_picture_insert:
-							sql.passPhoto(string)
-							
 					elif uploader is 'n':
 						print "Skip the upload step..."
 			elif check is 'n':

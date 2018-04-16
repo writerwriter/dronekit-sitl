@@ -85,14 +85,10 @@ def getNextMission(db,Id = None):
 	except :
 		db.rollback()
 	return multi_waypoint_mission
-def passPhoto(db,waypoint_mission,location):
+def passPhoto(sql_tuple):
 	cursor = getCursor(db)
-	missionid = waypoint_mission.mission_id	
-	pointnum = waypoint_mission.point_num
-	image_str = location
-	txt_str = "MISSION" + str(missionid) + " picture " +str(pointnum)
 	try:
-		cursor.execute("INSERT iNTO image_display(mission_id, pointNum,image, txt) VALUES (%s,%s,%s,%s)",(missionid,pointnum,image_str,txt_str))
+		cursor.execute("INSERT iNTO image_display(mission_id, pointNum,image, txt) VALUES (%s,%s,%s,%s)",sql_tuple)
 		cursor.close()
 		db.commit()
 	except:
