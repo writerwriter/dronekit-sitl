@@ -72,7 +72,7 @@ def getNextMission(db,Id = None):
 		results  = cursor.fetchall()
 		cursor.close()
 		for record in results:
-			next_mission = Mission.Mission(record[0],record[1],record[2],record[4],record[5],record[6],record[7])
+			next_mission = Mission.Mission(record[0],record[1],record[2],record[4],record[5],record[6],record[7],record[8],record[9])
 			multi_waypoint_mission.append(next_mission)
 			col1 =record[0]
 			col2 =record[1]
@@ -81,7 +81,9 @@ def getNextMission(db,Id = None):
 			video_s = record[5]
 			pm25_s = record[6]
 			mission_id = record[7]
-			print "	waypoint_id : %s Mission_id : %s Latitude : %s Longitude : %s Photo:%s Video:%s Pm25:%s" % (col1,mission_id,col2,col3,photo_s,video_s,pm25_s)
+			mission_stay = record[8]
+			mission_height = record[9]
+			print "	waypoint_id : %s Mission_id : %s Latitude : %s Longitude : %s Photo : %s Video : %s Pm25 : %s height : %s stay_time : %s" % (col1,mission_id,col2,col3,photo_s,video_s,pm25_s,mission_height,mission_stay)
 	except :
 		db.rollback()
 	return multi_waypoint_mission
