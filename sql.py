@@ -55,7 +55,9 @@ def printTask(db,Id = None):
 			video_s = record[5]
 			pm25_s = record[6]
 			mission_id = record[7]
-			print "	waypoint_id : %s Mission_id : %s Latitude : %s Longitude : %s Photo:%s Video:%s Pm25:%s" % (col1,mission_id,col2,col3,photo_s,video_s,pm25_s)
+			mission_stay = record[8]
+			mission_height = record[9]
+			print "	waypoint_id : %s Mission_id : %s Latitude : %s Longitude : %s Photo:%s Video:%s Pm25:%s Stay:%s height:%s" % (col1,mission_id,col2,col3,photo_s,video_s,pm25_s,mission_stay,mission_height)
 		if(isData == 0):
 			print "No Task to Do !"
 	except :
