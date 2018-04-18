@@ -58,13 +58,15 @@ if __name__ == '__main__':
 					pm25_sensor = int(waypoint_mission.pm25_sensor)
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
+					point_staytime = int(waypoint_mission.mission_staytime)
+					point_height = int(waypoint_mission.mission_height)
 					waypoint_mission.set_point_num(waypoint_counter+1)
 					if waypoint_counter == 0:
-						Drone.arm_and_takeoff(vehicle, 7)
+						Drone.arm_and_takeoff(vehicle, point_height)
 						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
-					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, 7, logFile)
-					time.sleep(5)
+					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, point_height, logFile)
+					time.sleep(point_staytime)
 					waypoint_mission.set_pm25_data(-1)
 					waypoint_counter += 1
 

@@ -62,18 +62,20 @@ if __name__ == '__main__':
 					pm25_sensor = int(waypoint_mission.pm25_sensor)
 					video_sensor = int(waypoint_mission.video_sensor)
 					photo_sensor = int(waypoint_mission.photo_sensor)
-
+					point_stay = int(waypoint_mission.mission_staytime)
+					point_height = int(waypoint_mission.mission_height)					
+	
 					waypoint_mission.set_point_num(waypoint_counter+1)
 					
 					logFile.write("Points  "+str(waypoint_counter+1)+":"+"\n")
 					print "Sensor:"
 					print "pm2.5:%d  video:%d  photo:%d" % (pm25_sensor,video_sensor,photo_sensor)
 					if waypoint_counter == 0:
-						Drone.arm_and_takeoff(vehicle, 7)
+						Drone.arm_and_takeoff(vehicle, point_height)
 						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
-					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, 7, logFile)
-					pmdata = air.gsleep(air,5)
+					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, point_height, logFile)
+					pmdata = air.gsleep(air,point_stay)
 					
 					waypoint_mission.set_pm25_data(pmdata)
 					if photo_sensor == 1:
@@ -131,7 +133,7 @@ if __name__ == '__main__':
 				print "Setting RTL mode..."
 				vehicle.mode = VehicleMode("RTL")
 				if photo_sensor ==1:
-					uploader = raw_input("Task is Done,do you want  upload the data ?(Y/n)")
+					uploader = raw_input("Task is Done,do you want upload the data ?(Y/n)")
 					if uploader is 'Y' :
 						ftransfer.transfer(str(Mission_number))
 						print "Finish upload.."
