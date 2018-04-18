@@ -85,17 +85,23 @@ class g3sensor():
     def gsleep(self,air,times):
     	pmdata = 0
     	sums = 0
-    	for i in range(int(times)):
-    		
-    		try:
-    			temp = air.read("/dev/ttyUSB0")
-    		except:
-    			next
-    		if temp != 0:
-    			sums = sums + int(temp[5])
-    		time.sleep(1)
-    	pmdata = sums//times
-    	return pmdata
+	if int(times==0):
+		try:
+			temp = air.read("/dev/ttyUSB0")
+			return int(temp[5])
+		except:
+			return 0 
+	else:
+    		for i in range(int(times)):
+    			try:
+    				temp = air.read("/dev/ttyUSB0")
+    			except:
+    				next
+    			if temp != 0:
+    				sums = sums + int(temp[5])
+    			time.sleep(1)
+    		pmdata = sums//times
+    		return pmdata
 
 
 if __name__ == '__main__': 
