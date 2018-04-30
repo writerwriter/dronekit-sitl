@@ -66,6 +66,8 @@ if __name__ == '__main__':
 						print "set groundspeed to 5m/s."
 						vehicle.airspeed = 5
 					Drone.goto_gps(vehicle,waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, point_height, logFile)
+					if (photo_sensor == 1):
+						print "Taking picture at point %s" % str(waypoint_counter+1)
 					time.sleep(point_staytime)
 					waypoint_mission.set_pm25_data(-1)
 					waypoint_counter += 1
