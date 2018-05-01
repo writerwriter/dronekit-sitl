@@ -56,9 +56,17 @@ def Get_uwb_position():
 	return average
 
 if __name__ == "__main__":
+	#while True:
+	#	report = Get_uwb_position()
+	#	print report[0]
+	#	print report[1]
+	#	print report[2]
+
 	while True:
 		report = Get_uwb_position()
-		print report[0]
-		print report[1]
-		print report[2]
-
+		print "go North %s m, go East %s m" % (500-report[1])/100.0,(5*math.pow(3,0.5)*100-report[0])/100.0
+		#Drone.send_ned_velocity((500-report[1])/200.0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
+		time.sleep(2)
+		#result = Get_uwb_location.Get_uwb_location()
+		#if math.fabs(500-result[1]) < 30 && math.fabs(5*math.pow(3,0.5)*100-result[0]) < 30:
+		#	break
