@@ -140,7 +140,7 @@ if __name__ == "__main__":
 		print report[1]
 		print report[2]
 		max = 0
-		min = 9999
+		min = 65536
 		for it in report :
 			if(it > max):
 				max = it
