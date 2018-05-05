@@ -81,7 +81,6 @@ if __name__ == '__main__':
 					if photo_sensor == 1:
 						Success = True
 						try:
-							Drone.condition_yaw(vehicle,0)
 							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
 							sql.passPhoto(db,waypoint_mission,loc)
 							print "degree 0 , success"
@@ -89,36 +88,6 @@ if __name__ == '__main__':
 							print "except : degree 0"
 							Success = False
 
-						try:
-							Drone.condition_yaw(vehicle,90)
-							square_count = square_count+1
-							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							sql.passPhoto(db,waypoint_mission,loc)
-							print "degree 90 , success"
-						except:
-							print "except : degree 90"
-							Success = False
-
-						try:
-							Drone.condition_yaw(vehicle,180)
-							square_count = square_count+1
-							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							sql.passPhoto(db,waypoint_mission,loc)
-							print "degree 180 , success"
-						except:
-							print "except : degree 180"
-							Success = False
-
-						try:
-							Drone.condition_yaw(vehicle,270)
-							square_count = square_count+1
-							loc = cc.capture(camera,str(Mission_number),str(waypoint_counter+1)+"_"+str(square_count))
-							sql.passPhoto(db,waypoint_mission,loc)
-							print "degree 270 , success"
-						except:
-							print "except : degree 270"
-							Success = False
-							
 						if Success is True:
 							print " Point %d picture : Finish" % waypoint_counter+1
 						elif Success is False:

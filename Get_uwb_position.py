@@ -135,38 +135,39 @@ def Get_uwb_distance():
 
 if __name__ == "__main__":
 	while True:
-		report = Get_uwb_position()
+		offset = 30
+		report = Get_uwb_distance()
 		print report[0]
 		print report[1]
 		print report[2]
-		max = 0
+		"""max = 0
 		min = 65536
 		for it in report :
 			if(it > max):
 				max = it
 			elif(it < min):
 				min = it
-		print "Max error : %s" % str(max - min)
-		if abs(report[0]-report[1]) < 20 and abs(report[0]-report[2]) < 20 and abs(report[1]-report[2]) < 20:
+		print "Max error : %s" % str(max - min)"""
+		if abs(report[0]-report[1]) < offset and abs(report[0]-report[2]) < offset and abs(report[1]-report[2]) < offset:
 			print "reach target"
 		elif report[0] > report[1] && report[0] > report[2]:
-			if abs(report[0]-report[1]) < 20:
+			if abs(report[0]-report[1]) < offset:
 				print "go to anchor 2 inverse"
-			elif abs(report[0]-report[2]) < 20:
+			elif abs(report[0]-report[2]) < offset:
 				print "go to anchor 1 inverse"
 			elif:
 				print "go to anchor 0"
 		elif report[1] > report[0] && report[1] > report[2]:
-			if abs(report[1]-report[0]) < 20:
+			if abs(report[1]-report[0]) < offset:
 				print "go to anchor 2 inverse"
-			elif abs(report[1]-report[2]) < 20:
+			elif abs(report[1]-report[2]) < offset:
 				print "go to anchor 0 inverse"
 			elif:
 				print "go to anchor 1"
 		elif report[2] > report[0] && report[2] > report[1]:
-			if abs(report[2]-report[0]) < 20:
+			if abs(report[2]-report[0]) < offset:
 				print "go to anchor 1 inverse"
-			elif abs(report[2]-report[1]) < 20:
+			elif abs(report[2]-report[1]) < offset:
 				print "go to anchor 0 inverse"
 			elif:
 				print "go to anchor 2"
