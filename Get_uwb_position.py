@@ -19,7 +19,7 @@ def Get_uwb_position():
 	
 	count = 0
 	flag = 0
-	debug = False
+	debug = True
 	while True:
 		ser.flushInput()
 		data_string = ser.read(48)
@@ -81,7 +81,7 @@ def Get_uwb_distance():
 	
 	count = 0
 	flag = 0
-	debug = False
+	debug = True
 	while True:
 		ser.flushInput()
 		data_string = ser.read(48)
@@ -96,9 +96,6 @@ def Get_uwb_distance():
 				posy=int(data_string[8:9].encode('hex'),16)+int(data_string[9:10].encode('hex'),16)*256
 				posz=int(data_string[10:11].encode('hex'),16)+int(data_string[11:12].encode('hex'),16)*256
 				vector.append([posx,posy,posz])
-				#print posx
-				#print posy
-				#print posz
 
 				#print "%d,%d,%d" % (posx,posy,posz)
 
@@ -112,7 +109,6 @@ def Get_uwb_distance():
 					flag = 1
 					break
 			data_string = ser.read(48)
-			print data_string.encode('hex')
 		if flag == 1:
 			break
 	average = [0,0,0]
@@ -124,49 +120,52 @@ def Get_uwb_distance():
 	average[1] /= count;
 	average[2] /= count;
 
-	if average[0] > 3000:
-		average[0] = -1
-	if average[1] > 3000:
-		average[1] = -1
-
 	print "done with work"
 	ser.close()
 	return average
 
 if __name__ == "__main__":
+	offset = 30
 	while True:
-		report = Get_uwb_position()
+		report = Get_uwb_distance()
 		print report[0]
 		print report[1]
 		print report[2]
-		if abs(report[0]-report[1]) < 20 and abs(report[0]-report[2]) < 20 and abs(report[1]-report[2]) < 20:
+		max = 0 
+		min = 9999
+		for it in report:
+			if(it > max):
+				max = it
+			elif( it < min ):
+				min = it
+		print "Max error : %s" % str(max-min)
+		if abs(report[0]-report[1]) < offset and abs(report[0]-report[2]) < offset and abs(report[1]-report[2]) < offset:
 			print "reach target"
-		elif report[0] > report[1] && report[0] > report[2]:
-			if abs(report[0]-report[1]) < 20:
+		elif report[0] > report[1] and report[0] > report[2]:
+			if abs(report[0]-report[1]) < offset:
 				print "go to anchor 2 inverse"
-			elif abs(report[0]-report[2]) < 20:
+			elif abs(report[0]-report[2]) < offset:
 				print "go to anchor 1 inverse"
-			elif:
+			else:
 				print "go to anchor 0"
-		elif report[1] > report[0] && report[1] > report[2]:
-			if abs(report[1]-report[0]) < 20:
+		elif report[1] > report[0] and report[1] > report[2]:
+			if abs(report[1]-report[0]) < offset:
 				print "go to anchor 2 inverse"
-			elif abs(report[1]-report[2]) < 20:
+			elif abs(report[1]-report[2]) < offset:
 				print "go to anchor 0 inverse"
-			elif:
+			else:
 				print "go to anchor 1"
-		elif report[2] > report[0] && report[2] > report[1]:
-			if abs(report[2]-report[0]) < 20:
+		elif report[2] > report[0] and report[2] > report[1]:
+			if abs(report[2]-report[0]) < offset:
 				print "go to anchor 1 inverse"
-			elif abs(report[2]-report[1]) < 20:
+			elif abs(report[2]-report[1]) < offset:
 				print "go to anchor 0 inverse"
-			elif:
+			else:
 				print "go to anchor 2"
 		
 
 		#print "go North %f m, go East %f m" % ((500-report[1])/100.0,(5*math.pow(3,0.5)*100-report[0])/100.0)
 		#Drone.send_ned_velocity((500-report[1])/200.0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
-		time.sleep(1)
 		#result = Get_uwb_location.Get_uwb_location()
 		#if math.fabs(500-result[1]) < 30 && math.fabs(5*math.pow(3,0.5)*100-result[0]) < 30:
 		#	break
