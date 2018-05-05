@@ -46,7 +46,12 @@ DURATION = 10
 print vehicle.location.global_relative_frame
 
 starttime = time.time()
-Drone.send_ned_velocity(vehicle, NORTH, 0, 0, DURATION)
+msg = Drone.return_send_ned_velocity_mavlink_msg(vehicle, NORTH, 0, 0)
+while True:
+	vehicle.send_mavlink(msg)
+	temptime = time.time()
+	if temptime-starttime >= 3:
+		break
 endtime = time.time()
 print vehicle.location.global_relative_frame
 print endtime-starttime
