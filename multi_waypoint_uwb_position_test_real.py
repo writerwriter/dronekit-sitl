@@ -130,8 +130,16 @@ if __name__ == '__main__':
 				
 				while True:
 					report = Get_uwb_position.Get_uwb_position()
-					Drone.send_ned_velocity((500-report[1])/200.0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
-					time.sleep(2)
+
+					if report[0] == -1 and report[1] != -1: 
+						Drone.send_ned_velocity((500-report[1])/200.0,0,0,2)
+					elif report[1] == -1 and report[0] != -1:
+						Drone.send_ned_velocity(0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
+					elif report[0] == -1 and report[1] == -1:
+						Drone.goto_gps(vehicle,home_location[0],home_loation[1],7,log_file)
+					else:
+						Drone.send_ned_velocity((500-report[1])/200.0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
+					time.sleep(1)
 					result = Get_uwb_location.Get_uwb_location()
 					if math.fabs(500-result[1]) < 30 && math.fabs(5*math.pow(3,0.5)*100-result[0]) < 30:
 						break

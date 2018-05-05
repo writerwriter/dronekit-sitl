@@ -19,7 +19,7 @@ def Get_uwb_position():
 	
 	count = 0
 	flag = 0
-	debug = True
+	debug = False
 	while True:
 		ser.flushInput()
 		data_string = ser.read(48)
@@ -45,7 +45,6 @@ def Get_uwb_position():
 				#a1_z = int(data_string[30:31].encode('hex'),16)+int(data_string[31:32].encode('hex'),16)*256
 
 				#print "%d,%d,%d" % (a1_x,a1_y,a1_z)
-				
 				count += 1
 				if count >= 10:
 					flag = 1
@@ -62,6 +61,12 @@ def Get_uwb_position():
 	average[0] /= count;
 	average[1] /= count;
 	average[2] /= count;
+
+	if average[0] > 3000:
+		average[0] = -1
+	if average[1] > 3000:
+		average[1] = -1
+
 	print "done with work"
 	ser.close()
 	return average
