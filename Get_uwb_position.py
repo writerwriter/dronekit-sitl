@@ -131,15 +131,15 @@ if __name__ == "__main__":
 		print report[0]
 		print report[1]
 		print report[2]
-		max = 0 
-		min = 9999
-		for it in report:
+		max = 0
+		min = 65536
+		for it in report :
 			if(it > max):
 				max = it
-			elif( it < min ):
+			elif(it < min):
 				min = it
-		print "Max error : %s" % str(max-min)
-		if abs(report[0]-report[1]) < offset and abs(report[0]-report[2]) < offset and abs(report[1]-report[2]) < offset:
+		print "Max error : %s" % str(max - min)
+		if abs(report[0]-report[1]) < 20 and abs(report[0]-report[2]) < 20 and abs(report[1]-report[2]) < 20:
 			print "reach target"
 		elif report[0] > report[1] and report[0] > report[2]:
 			if abs(report[0]-report[1]) < offset:
@@ -162,7 +162,7 @@ if __name__ == "__main__":
 				print "go to anchor 0 inverse"
 			else:
 				print "go to anchor 2"
-		
+
 
 		#print "go North %f m, go East %f m" % ((500-report[1])/100.0,(5*math.pow(3,0.5)*100-report[0])/100.0)
 		#Drone.send_ned_velocity((500-report[1])/200.0,(5*math.pow(3,0.5)*100-report[0])/200.0,0,2)
