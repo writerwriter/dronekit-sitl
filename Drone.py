@@ -168,6 +168,8 @@ def send_ned_velocity(vehicle,velocity_x, velocity_y, velocity_z, duration):
 
     # send command to vehicle on 1 Hz cycle
     for x in range(0,duration):
+        if x > 2:
+            break
         vehicle.send_mavlink(msg)
         time.sleep(1)
 

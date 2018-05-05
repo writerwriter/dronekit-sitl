@@ -42,13 +42,14 @@ WEST = -0.1
 UP = -0.5
 DOWN = 0.5
 
-DURATION = 3
+DURATION = 10
 print vehicle.location.global_relative_frame
 
+starttime = time.time()
 Drone.send_ned_velocity(vehicle, NORTH, 0, 0, DURATION)
-Drone.send_ned_velocity(vehicle, 0, 0, 0, 1)
-
+endtime = time.time()
 print vehicle.location.global_relative_frame
+print endtime-starttime
 
 vehicle.close()
 
