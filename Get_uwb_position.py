@@ -11,7 +11,7 @@ def Check_sum(pdata,len):
 	return sum
 
 def Get_uwb_position():
-	SERIAL_PORT = '/dev/ttyUSB0'
+	SERIAL_PORT = '/dev/ttyUSB1'
 	ser = serial.Serial(SERIAL_PORT,115200)
 	ser.timeout = None
 
@@ -73,7 +73,7 @@ def Get_uwb_position():
 
 
 def Get_uwb_distance():
-	SERIAL_PORT = '/dev/ttyUSB0'
+	SERIAL_PORT = '/dev/ttyUSB1'
 	ser = serial.Serial(SERIAL_PORT,115200)
 	ser.timeout = None
 

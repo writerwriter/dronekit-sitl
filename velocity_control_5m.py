@@ -16,7 +16,7 @@ vehicle = connect(args.connect, baud=57600, wait_ready=True)
 
 logFile=open("log_velocity.txt","a+")
 
-Drone.arm_and_takeoff(vehicle, 5)
+Drone.arm_and_takeoff(vehicle, 10)
 
 NORTH = 0.1
 SOUTH = -0.1
@@ -31,9 +31,11 @@ DURATION = 3
 print vehicle.location.global_relative_frame
 
 Drone.send_ned_velocity(vehicle, NORTH, 0, 0, DURATION)
-Drone.send_ned_velocity(vehicle, 0, 0, 0, 1)
 
 print vehicle.location.global_relative_frame
+
+vehicle.mode = VehicleMode("LAND")
+
 
 vehicle.close()
 
