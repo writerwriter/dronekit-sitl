@@ -33,10 +33,10 @@ logFile=open("log_velocity.txt","a+")
 
 Drone.arm_and_takeoff(vehicle, 5)
 
-NORTH = 0.1
+NORTH = 0.2
 SOUTH = -0.1
 
-EAST = 0.1
+EAST = 0.2
 WEST = -0.1
 
 UP = -0.5
@@ -46,11 +46,16 @@ DURATION = 10
 print vehicle.location.global_relative_frame
 
 starttime = time.time()
-msg = Drone.return_send_ned_velocity_mavlink_msg(vehicle, NORTH, 0, 0)
+msg1 = Drone.return_send_ned_velocity_mavlink_msg(vehicle, NORTH, 0, 0)
+msg2 = Drone.return_send_ned_velocity_mavlink_msg(vehicle, 0, EAST, 0)
 while True:
-	vehicle.send_mavlink(msg)
+	print str(vehicle.velocity)
 	temptime = time.time()
-	if temptime-starttime >= 3:
+	if temptime-starttime < 5:
+		vehicle.send_mavlink(msg1)
+	elif temptime-starttime >= 5 and temptime-starttime < 10:
+		vehicle.send_mavlink(msg2)
+	elif temptime-starttime >= 10:
 		break
 endtime = time.time()
 print vehicle.location.global_relative_frame

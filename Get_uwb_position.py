@@ -131,15 +131,15 @@ if __name__ == "__main__":
 		print report[0]
 		print report[1]
 		print report[2]
-		max = 0
+		"""max = 0
 		min = 65536
 		for it in report :
 			if(it > max):
 				max = it
 			elif(it < min):
 				min = it
-		print "Max error : %s" % str(max - min)
-		if abs(report[0]-report[1]) < 20 and abs(report[0]-report[2]) < 20 and abs(report[1]-report[2]) < 20:
+		print "Max error : %s" % str(max - min)"""
+		if abs(report[0]-report[1]) < offset and abs(report[0]-report[2]) < offset and abs(report[1]-report[2]) < offset:
 			print "reach target"
 		elif report[0] > report[1] and report[0] > report[2]:
 			if abs(report[0]-report[1]) < offset:
