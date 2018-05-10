@@ -18,24 +18,8 @@ logFile=open("log_velocity.txt","a+")
 
 Drone.arm_and_takeoff(vehicle, 3)
 
-NORTH = 0.3
-SOUTH = -0.3
+print "start positioning..."
 
-EAST = 0.3
-WEST = -0.3
-
-UP = -0.5
-DOWN = 0.5
-
-DURATION = 15
-
-msg = Drone.return_send_ned_velocity_mavlink_msg(vehicle,SOUTH,0,0)
-msg2 = Drone.return_send_ned_velocity_mavlink_msg(vehicle,NORTH,0,0)
-
-
-print vehicle.location.global_relative_frame
-starttime = time.time()
-endtime = time.time()
 msg_Anchor0 = Drone.return_send_ned_velocity_mavlink_msg(vehicle,0.3,0,0)
 msg_Anchor0_inverse = Drone.return_send_ned_velocity_mavlink_msg(vehicle,-0.3,0,0)
 msg_Anchor1 = Drone.return_send_ned_velocity_mavlink_msg(vehicle,-0.15,0.26,0)
@@ -89,6 +73,4 @@ vehicle.mode = VehicleMode("LAND")
 
 
 vehicle.close()
-
-
 

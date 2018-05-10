@@ -105,7 +105,7 @@ def Get_uwb_distance():
 
 				#print "%d,%d,%d" % (a1_x,a1_y,a1_z)
 				count += 1
-				if count >= 5:
+				if count >= 1:
 					flag = 1
 					break
 			data_string = ser.read(48)
