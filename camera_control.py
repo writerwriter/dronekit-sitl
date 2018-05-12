@@ -1,6 +1,7 @@
 import time
 import picamera
 def capture(camera,mission_number,point_number):
+    camera.rotation = 270
     camera.capture("/drone/dronekit-sitl/picture/"+"MISSION_"+mission_number+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png")
     time.sleep(1)
     return "/dronePicture/"+"MISSION_"+mission_number+"/"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())+"_"+point_number+".png"
@@ -20,6 +21,7 @@ if __name__ == '__main__':
 	print "choice is %d" % int(choice)
 	if int(choice) == 1:
 		print "test capture"
+		camera.rotation = 270
 		locatio = camera.capture('./cameratest/test_pi.jpg')
 	elif int(chlice) == 2:
 		print "get camera object"
