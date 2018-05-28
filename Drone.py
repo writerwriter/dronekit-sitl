@@ -58,6 +58,39 @@ def condition_yaw(vehicle,heading, relative=False):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
+def battery_analysis(vehicle,distance):
+    bat_now = float(vehicle.battery)
+    gas_per_minute = (12.6 - 10.5)/18
+    if bat_now <= 10.5 :
+        print "Battery Low level"
+        return -1
+    else :
+        need_time = gps_all_distance() / vehicle.speed
+        residual_cap = bat_now / gas_per_minute
+        if need_time > residual_cap:
+            print "Battery cant afford such long distance fly"
+            return 2
+        else:
+            print "Battery Check OK"
+            return 1
+
+def gps_two_point(lon1,lat1,lon2,lat2):
+    lon1, lat1, lon2, lat2 = map(radians, [long1, lat1, lon2, lat2])
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    km = 6371 * c
+    return km * 1000
+
+def gps_all_distance(vehicle, mission):
+    home = vehicle.home_location
+    sum = 0
+    sum += gps_two_point(home.longitude, home.latitude, mission[0].longitude, mission[0].latitude)
+    for index in range(0, len(mission) - 1):
+        sum+=gps_two_point(mission[index].mission_longitude,mission[index].mission_latitude, mission[index + 1].mission_longitude, mission[index + 1].mission_latitude)
+    return sum
+
 def set_roi(vehicle,location):
     # create the MAV_CMD_DO_SET_ROI command
     msg = vehicle.message_factory.command_long_encode(
