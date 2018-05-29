@@ -28,7 +28,7 @@ msg_Anchor2 = Drone.return_send_ned_velocity_mavlink_msg(vehicle,-0.15,-0.26,0)
 msg_Anchor2_inverse = Drone.return_send_ned_velocity_mavlink_msg(vehicle,0.15,0.26,0)
 			
 while True:
-	offset = 50
+	offset = 30
 	report = Get_uwb_position.Get_uwb_distance()
 	print report[0]
 	print report[1]
