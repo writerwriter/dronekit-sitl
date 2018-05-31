@@ -99,17 +99,19 @@ def passPhoto(sql_tuple):
 		db.rollback()
 def TaskDone(db,multi_waypoint_mission,is_abandoned):
 	mission_id = 0
+	count = 1
 	for waypoint_mission in multi_waypoint_mission:
 		mission_id = waypoint_mission.mission_id
+		waypoint_mission.set_point_num(count)
 		if is_abandoned :
-			waypoint_mission.point_num = -1
-			waypoint_mission.pm25_data = -1
+			waypoint_mission.set_pm25_data(-1)
 		sql = "INSERT iNTO mission_results(waypoint_id, mission_latitude, mission_longitude, mission_id, pointNum,is_abandoned, pm25_data) VALUES (%d,%.15f,%.15f,%d,%d,%i,%f)" % (waypoint_mission.waypoint_id, waypoint_mission.mission_latitude, waypoint_mission.mission_longitude, waypoint_mission.mission_id, waypoint_mission.point_num ,is_abandoned, waypoint_mission.pm25_data)
 		cursor = getCursor(db)
 		try:
 			cursor.execute(sql)
 			cursor.close()
 			db.commit()
+			count+=1
 		except:
 			db.rollback()
 	if is_abandoned == False:
